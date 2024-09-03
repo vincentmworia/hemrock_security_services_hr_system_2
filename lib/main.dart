@@ -6,6 +6,7 @@ const appTitle = "Hemrock Security Services";
 
 // Colors
 const appPrimaryColor = Color.fromRGBO(31, 28, 78, 1);
+// const appSecondaryColor = Colors.white;
 const appSecondaryColor = Color.fromRGBO(214, 199, 116, 1);
 const appBrightSecondaryColor = Colors.yellowAccent;
 const appSecondaryColor2 = Color.fromRGBO(110, 167, 94, 1);

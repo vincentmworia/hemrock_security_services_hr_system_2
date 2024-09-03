@@ -1,9 +1,7 @@
-import 'dart:ui';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../main.dart';
+import '../../widgets/employee_page_control.dart';
+import '../../widgets/employee_page_grid_view.dart';
 
 class EmployeesPage extends StatelessWidget {
   const EmployeesPage({super.key});
@@ -12,86 +10,28 @@ class EmployeesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    final deviceHeight = mediaQuery.size.height - mediaQuery.padding.top;
+    final deviceWidth = mediaQuery.size.width;
+
     return ClipRRect(
         borderRadius: const BorderRadius.only(topLeft: Radius.circular(20.0)),
-        child: LayoutBuilder(builder: (context, constraintsMainFrame) {
-          return Column(
-            children: <Widget>[
-              Container(
-                height: constraintsMainFrame.maxHeight * 0.2,
-                width: constraintsMainFrame.maxWidth,
-                color: Colors.white,
-                child: LayoutBuilder(
-                  builder: (context, constraints) {
-                    return Row(
-                      children: [
-                        Column(
-                          children: [
-                            SizedBox(
-                              height: constraints.maxHeight * 0.5,
-                              width: constraints.maxWidth * 0.5,
-                              // todo Note the title
-                            ),
-                            Container(
-                              height: constraints.maxHeight * 0.5,
-                              width: constraints.maxWidth * 0.5,
-                              // todo Note the button
-
-                            ),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Container(
-                              height: constraints.maxHeight * 0.5,
-                              width: constraints.maxWidth * 0.5,
-                              color: Colors.yellow,
-                            ),
-                            Container(
-                              height: constraints.maxHeight * 0.5,
-                              width: constraints.maxWidth * 0.5,
-                              color: Colors.brown,
-                            ),
-                          ],
-                        ),
-                      ],
-                    );
-                  },
+        child: Container(
+          color: Colors.white,
+          child: (deviceWidth < 1000 || deviceHeight < 500)
+              ? const Center()
+              : Column(
+                  children: <Widget>[
+                      EmployeePageControl(deviceWidth),
+                    const Divider(),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(30.0),
+                        child: EmployeePageGridView(items),
+                      ),
+                    )
+                  ],
                 ),
-              ),
-              Expanded(
-                child: Container(
-                  color: Colors.white,
-                  child: Padding(
-                    padding: const EdgeInsets.all(30.0),
-                    child: GridView.builder(
-                      physics: const BouncingScrollPhysics(),
-                      gridDelegate:
-                          const SliverGridDelegateWithMaxCrossAxisExtent(
-                              maxCrossAxisExtent: 200.0,
-                              mainAxisSpacing: 50.0,
-                              crossAxisSpacing: 50.0),
-                      itemCount: items.length,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: appSecondaryColor2,
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          child: Text(
-                            items[index],
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 20),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-              )
-            ],
-          );
-        }));
+        ));
   }
 }
