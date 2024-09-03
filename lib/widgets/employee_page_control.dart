@@ -10,11 +10,29 @@ class EmployeePageControl extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(deviceWidth);
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 60.0, vertical: 20.0),
+      padding: const EdgeInsets.only(left: 30.0, top: 10.0,right: 30.0),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                elevation: 3.0,
+                fixedSize: const Size(200, 50),
+                // backgroundColor: appPrimaryColor.withOpacity(0.9),
+              ),
+              icon: const Icon(
+                Icons.add,
+                // color: appSecondaryColor,
+              ),
+              onPressed: () {},
+              label: const Text(
+                'Add New Employee',
+                style: TextStyle(
+                  // color: appSecondaryColor,
+                ),
+              )),
+
           const Text(
             'Company Employees',
             style: TextStyle(
@@ -25,20 +43,31 @@ class EmployeePageControl extends StatelessWidget {
             ),
             overflow: TextOverflow.ellipsis,
           ),
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Switch(value: false, onChanged: (state) {}),
-                if(deviceWidth>1100)
-                const SearchBox(),
-                // todo sorting search
-                ElevatedButton.icon(
-                    icon: const Icon(Icons.add),
-                    onPressed: () {},
-                    label: const Text('Add New Employee')),
-              ],
-            ),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+
+              Switch(value: false, onChanged: (state) {}),
+
+              if (deviceWidth > 1100) const SearchBox(),
+              if (deviceWidth > 1300)
+                Center(
+                  child: DropdownButton(
+                      value: 'One',
+                      items: <String>['One', 'Two', 'Three', 'Four']
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      onChanged: (val) {
+                        print(val.toString());
+                      }),
+                ),
+              // todo sorting search
+            ],
           ),
         ],
       ),

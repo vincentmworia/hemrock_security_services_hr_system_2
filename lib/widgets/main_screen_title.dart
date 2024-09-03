@@ -48,12 +48,12 @@ class MainScreenTitle extends StatelessWidget {
               bottom: 5.0,
             ),
             child: Row(
-              mainAxisAlignment: windowWidth > 800
+              mainAxisAlignment: (windowWidth > 800 && windowHeight > 500)
                   ? MainAxisAlignment.spaceBetween
                   : MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                if (windowWidth > 800)
+                if (windowWidth > 800 && windowHeight > 500)
                   const Text(
                     'Hemrock Security Services',
                     style: TextStyle(
@@ -64,6 +64,7 @@ class MainScreenTitle extends StatelessWidget {
                     ),
                     overflow: TextOverflow.ellipsis,
                   ),
+                if(windowWidth > 300 && windowHeight > 250)
                 Image.asset(
                   logoImage,
                   width: windowWidth * 0.1,

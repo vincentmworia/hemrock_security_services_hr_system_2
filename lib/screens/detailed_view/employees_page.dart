@@ -6,7 +6,7 @@ import '../../widgets/employee_page_grid_view.dart';
 class EmployeesPage extends StatelessWidget {
   const EmployeesPage({super.key});
 
-  static List<String> items = List.generate(100, (index) => 'Item $index');
+  static List<String> items = List.generate(30, (index) => 'Item $index');
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class EmployeesPage extends StatelessWidget {
               ? const Center()
               : Column(
                   children: <Widget>[
-                      EmployeePageControl(deviceWidth),
+                    EmployeePageControl(deviceWidth),
                     const Divider(),
                     Expanded(
                       child: Padding(
