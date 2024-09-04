@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/input_field.dart';
-
 class SearchBox extends StatefulWidget {
   const SearchBox({super.key});
 
@@ -20,20 +18,33 @@ class _SearchBoxState extends State<SearchBox> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 300.0,
-      child: InputField(
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: SizedBox(
+        width: 200.0,
+        child: TextFormField(
           key: const ValueKey('search'),
-          keyboardType: TextInputType.name,
           controller: _searchValueController,
-          hintText: 'Search by Name',
-          icon: Icons.search,
-          obscureText: false,
-          autoCorrect: false,
-          enableSuggestions: false,
+          keyboardType: TextInputType.name,
           textCapitalization: TextCapitalization.sentences,
-          textInputAction: TextInputAction.done),
-      // TextField(),
+          textInputAction: TextInputAction.done,
+          decoration: InputDecoration(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20),
+              borderSide: const BorderSide(width: 0.8),
+            ),
+            filled: true,
+            fillColor: Colors.white,
+            contentPadding: const EdgeInsets.symmetric(vertical: 10.0),
+            hintText: 'Payroll Number',
+            prefixIcon: Icon(
+              Icons.search,
+              color: Theme.of(context).colorScheme.primary,
+              size: 30.0,
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

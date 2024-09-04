@@ -2,11 +2,64 @@ import 'package:flutter/material.dart';
 
 import '../../widgets/employee_page_control.dart';
 import '../../widgets/employee_page_grid_view.dart';
+import '../main_screen.dart';
+import '../template_screen.dart';
 
-class EmployeesPage extends StatelessWidget {
-  const EmployeesPage({super.key});
+enum ViewData {
+  grid,
+  list,
+}
 
-  static List<String> items = List.generate(30, (index) => 'Item $index');
+enum SortOrder {
+  ascending,
+  descending,
+}
+
+enum SortCategory {
+  payroll,
+  surname,
+  otherNames,
+}
+
+class EmployeesPage extends StatefulWidget {
+  const EmployeesPage({super.key, required this.addEmployeeBn});
+
+  final void Function(PageDisplay) addEmployeeBn;
+
+  @override
+  State<EmployeesPage> createState() => _EmployeesPageState();
+}
+
+class _EmployeesPageState extends State<EmployeesPage> {
+  static List<int> items = List.generate(20, (index) => index);
+
+  ViewData _view = ViewData.grid;
+
+  SortOrder _sort = SortOrder.ascending;
+
+  Widget displayEmployees(ViewData v) {
+    switch (v) {
+      case ViewData.grid:
+        return EmployeePageGridView(items);
+
+      case ViewData.list:
+        return const TemplateScreenView('ListView');
+      default:
+        return EmployeePageGridView(items);
+    }
+  }
+
+  void _switchDisplayStyle(ViewData v) {
+    setState(() {
+      _view = v;
+    });
+  }
+
+  void _switchSorting(SortOrder s) {
+    setState(() {
+      _sort = s;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,23 +68,31 @@ class EmployeesPage extends StatelessWidget {
     final deviceWidth = mediaQuery.size.width;
 
     return ClipRRect(
-        borderRadius: const BorderRadius.only(topLeft: Radius.circular(20.0)),
-        child: Container(
-          color: Colors.white,
-          child: (deviceWidth < 1000 || deviceHeight < 500)
-              ? const Center()
-              : Column(
-                  children: <Widget>[
-                    EmployeePageControl(deviceWidth),
-                    const Divider(),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(30.0),
-                        child: EmployeePageGridView(items),
-                      ),
-                    )
-                  ],
-                ),
-        ));
+      borderRadius: const BorderRadius.only(topLeft: Radius.circular(20.0)),
+      child: Container(
+        color: Colors.white,
+        child: (deviceWidth < 1000 || deviceHeight < 500)
+            ? const Center()
+            : Column(
+                children: <Widget>[
+                  EmployeePageControl(
+                    deviceWidth: deviceWidth,
+                    view: _view,
+                    switchDisplayStyle: _switchDisplayStyle,
+                    sort: _sort,
+                    switchSort: _switchSorting,
+                    addEmployeeBn: widget.addEmployeeBn,
+                  ),
+                  const Divider(),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(30.0),
+                      child: displayEmployees(_view),
+                    ),
+                  )
+                ],
+              ),
+      ),
+    );
   }
 }

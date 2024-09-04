@@ -26,7 +26,7 @@ class LeftPaneIconButton extends StatefulWidget {
 }
 
 class _LeftPaneIconButtonState extends State<LeftPaneIconButton> {
-  static final _inactiveBnColor = appSecondaryColor.withOpacity(0.25);
+  static final _inactiveBnColor = appSecondaryColor.withOpacity(0.2);
   static const _activeBnColor = appSecondaryColor;
 
   @override
@@ -34,9 +34,6 @@ class _LeftPaneIconButtonState extends State<LeftPaneIconButton> {
     return InkWell(
       onTap: () => widget.activatePage(widget.buttonPage),
       borderRadius: BorderRadius.circular(30.0),
-      focusColor: Colors.red.withOpacity(0.2),
-      splashColor: appSecondaryColor.withOpacity(0.3),
-      highlightColor: appSecondaryColor.withOpacity(0.3),
       child: Row(
         mainAxisAlignment: widget.extendPane
             ? MainAxisAlignment.start

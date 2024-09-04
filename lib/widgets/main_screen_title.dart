@@ -57,20 +57,20 @@ class MainScreenTitle extends StatelessWidget {
                   const Text(
                     'Hemrock Security Services',
                     style: TextStyle(
-                      fontSize: 30.0,
+                      fontSize: 25.0,
                       color: appSecondaryColor,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 7.0,
                     ),
                     overflow: TextOverflow.ellipsis,
                   ),
-                if(windowWidth > 300 && windowHeight > 250)
-                Image.asset(
-                  logoImage,
-                  width: windowWidth * 0.1,
-                  height: windowHeight * 0.1,
-                  fit: BoxFit.contain,
-                ),
+                if (windowWidth > 300 && windowHeight > 250)
+                  Image.asset(
+                    logoImage,
+                    width: windowWidth * 0.1,
+                    height: windowHeight * 0.1,
+                    fit: BoxFit.contain,
+                  ),
               ],
             ),
           )),

@@ -6,6 +6,7 @@ class EmployeePageGridView extends StatelessWidget {
   const EmployeePageGridView(this.items, {super.key});
 
   final List items;
+  static var tap = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +21,20 @@ class EmployeePageGridView extends StatelessWidget {
         return Container(
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: appSecondaryColor2.withOpacity(0.8),
+            gradient:   LinearGradient(
+              colors: [
+                appPrimaryColor.withOpacity(0.85),
+                appSecondaryColor2
+              ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomRight,
+            ),
             borderRadius: BorderRadius.circular(20.0),
           ),
           child: Text(
-            items[index],
+            (items[index] < 10)
+                ? 'HHS00${items[index] + 1}'
+                : 'HHS0${items[index] + 1}',
             style: const TextStyle(color: Colors.white, fontSize: 20),
           ),
         );

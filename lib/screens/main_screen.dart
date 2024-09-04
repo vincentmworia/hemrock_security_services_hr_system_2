@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hrsystem/screens/template_screen.dart';
 
 import '../main.dart';
 import '../widgets/left_pane_navigation.dart';
@@ -11,6 +12,7 @@ import './detailed_view/profile_page.dart';
 enum PageDisplay {
   home,
   employees,
+  addEmployee,
   payroll,
   profile,
 }
@@ -42,12 +44,20 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
+  void _addEmployeeBn(PageDisplay activePg) {
+    setState(() {
+      _currentPage = activePg;
+    });
+  }
+
   Widget _currentPageToDisplay(PageDisplay pg) {
     switch (pg) {
       case PageDisplay.home:
         return const HomePage();
       case PageDisplay.employees:
-        return const EmployeesPage();
+        return EmployeesPage(addEmployeeBn: _addEmployeeBn);
+      case PageDisplay.addEmployee:
+        return const TemplateScreenView('Add Employee Process');
       case PageDisplay.payroll:
         return const PayrollPage();
       case PageDisplay.profile:
