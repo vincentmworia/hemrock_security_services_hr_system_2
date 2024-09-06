@@ -3,6 +3,12 @@ enum Gender {
   female,
 }
 
+String _getGenderString(Gender gender) =>
+    gender == Gender.male ? 'male' : 'female';
+
+Gender _getGenderEnum(String gender) =>
+    gender == 'male' ? Gender.male : Gender.female;
+
 class PersonalData {
   final String surName;
   final String otherNames;
@@ -28,11 +34,12 @@ class PersonalData {
     required this.nssfNumber,
   });
 
-  static PersonalData fromMap(Map<String, dynamic> personalData) => PersonalData(
+  static PersonalData fromMap(Map<String, dynamic> personalData) =>
+      PersonalData(
         surName: personalData['surName'],
         otherNames: personalData['otherNames'],
-        gender: personalData['gender'],
-        dateOfBirth: personalData['dateOfBirth'],
+        gender: _getGenderEnum(personalData['gender']),
+        dateOfBirth: DateTime.parse(personalData['dateOfBirth']),
         citizenship: personalData['citizenship'],
         identityNumber: personalData['identityNumber'],
         phoneNumber: personalData['phoneNumber'],
@@ -44,8 +51,8 @@ class PersonalData {
   Map<String, dynamic> toMap() => {
         'surName': surName,
         'otherNames': otherNames,
-        'gender': gender,
-        'dateOfBirth': dateOfBirth,
+        'gender': _getGenderString(gender),
+        'dateOfBirth': dateOfBirth.toIso8601String(),
         'citizenship': citizenship,
         'identityNumber': identityNumber,
         'phoneNumber': phoneNumber,

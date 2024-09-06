@@ -29,14 +29,18 @@ class EmployeePageGridView extends StatelessWidget {
               begin: Alignment.topCenter,
               end: Alignment.bottomRight,
             ),
+
             borderRadius: BorderRadius.circular(30.0),
           ),
-          child: Text(
+          child:
+
+          Text(
             (items[index] < 10)
                 ? 'HHS00${items[index] + 1}'
                 : 'HHS0${items[index] + 1}',
             style: const TextStyle(color: Colors.white, fontSize: 20),
           ),
+
         );
       },
     );

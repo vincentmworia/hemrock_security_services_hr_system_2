@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hrsystem/dummy_data.dart';
+import 'package:hrsystem/providers/employees_provider.dart';
 import 'package:hrsystem/screens/template_screen.dart';
+import 'package:provider/provider.dart';
 
 import '../main.dart';
 import '../widgets/left_pane_navigation.dart';
@@ -80,8 +82,6 @@ class _MainScreenState extends State<MainScreen> {
 
     final leftPaneWidth = (windowWidth < 1500 ? 1500 : windowWidth) * 0.05;
 
-
-
     return Scaffold(
       backgroundColor: appPrimaryColor,
       body: SizedBox(
@@ -111,7 +111,9 @@ class _MainScreenState extends State<MainScreen> {
                       activePage: _currentPage,
                       activatePage: _paneButtonPressed),
                   Expanded(
-                    child: _currentPageToDisplay(_currentPage),
+                    child: ChangeNotifierProvider(
+                        create: (context) => EmployeesHandler(),
+                        child: _currentPageToDisplay(_currentPage)),
                   )
                 ],
               ),

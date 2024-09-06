@@ -10,13 +10,13 @@ class DateSpecifications {
   static  DateSpecifications fromMap(Map<String, dynamic> dateSpecifications) =>
       DateSpecifications(
         jobDescriptionReadAndSigned:
-            dateSpecifications['jobDescriptionReadAndSigned'],
+            DateTime.parse(dateSpecifications['jobDescriptionReadAndSigned']),
         staffCodeOfConductReadAndSigned:
-            dateSpecifications['staffCodeOfConductReadAndSigned'],
+            DateTime.parse(dateSpecifications['staffCodeOfConductReadAndSigned']),
       );
 
   Map<String, dynamic> toMap() => {
-        'jobDescriptionReadAndSigned': jobDescriptionReadAndSigned,
-        'staffCodeOfConductReadAndSigned': staffCodeOfConductReadAndSigned,
+        'jobDescriptionReadAndSigned': jobDescriptionReadAndSigned.toIso8601String(),
+        'staffCodeOfConductReadAndSigned': staffCodeOfConductReadAndSigned.toIso8601String(),
       };
 }

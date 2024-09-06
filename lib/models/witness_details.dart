@@ -7,13 +7,14 @@ class WitnessDetails {
     required this.dateOfWitness,
   });
 
-  static WitnessDetails fromMap(Map<String, dynamic> witnessDetails) => WitnessDetails(
+  static WitnessDetails fromMap(Map<String, dynamic> witnessDetails) =>
+      WitnessDetails(
         witnessName: witnessDetails['witnessName'],
-        dateOfWitness: witnessDetails['dateOfWitness'],
+        dateOfWitness: DateTime.parse(witnessDetails['dateOfWitness']),
       );
 
   Map<String, dynamic> toMap() => {
         'witnessName': witnessName,
-        'dateOfWitness': dateOfWitness,
+        'dateOfWitness': dateOfWitness.toIso8601String(),
       };
 }

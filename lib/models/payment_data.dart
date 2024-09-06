@@ -1,10 +1,10 @@
 class PaymentData {
-  final double grossPayBasicSalary;
-  final double savings;
-  final double payeCut;
-  final double nhifCut;
-  final double nssfCut;
-  final Map<String, double> otherCuts;
+  final int grossPayBasicSalary;
+  final int savings;
+  final int payeCut;
+  final int nhifCut;
+  final int nssfCut;
+  final Map<String, int> otherCuts;
   final BankDetails bankDetails;
 
   PaymentData({
@@ -17,8 +17,8 @@ class PaymentData {
     required this.bankDetails,
   });
 
-// net salary calculator
-  double get netPayBasicSalary =>
+// net salary calculator // todo net salary as property
+  int get netPayBasicSalary =>
       grossPayBasicSalary -
       savings -
       payeCut -
@@ -26,7 +26,7 @@ class PaymentData {
       nssfCut -
       _otherCuts();
 
-  double _otherCuts() => otherCuts.values.reduce((a, b) => a + b);
+  int _otherCuts() => otherCuts.values.reduce((a, b) => a + b);
 
   static PaymentData fromMap(Map<String, dynamic> paymentDetails) =>
       PaymentData(
@@ -46,6 +46,7 @@ class PaymentData {
         'nhifCut': nhifCut,
         'nssfCut': nssfCut,
         'otherCuts': otherCuts,
+        'netPay': netPayBasicSalary,
         'bankDetails': bankDetails.toMap(),
       };
 }

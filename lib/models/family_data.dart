@@ -13,14 +13,14 @@ class FamilyData {
 
   static FamilyData fromMap(Map<String, dynamic> familyData) => FamilyData(
         relationship: familyData['relationship'],
-        dateOfBirth: familyData['dateOfBirth'],
+        dateOfBirth: DateTime.parse(familyData['dateOfBirth']),
         identityNumber: familyData['identityNumber'],
         phoneNumber: familyData['phoneNumber'],
       );
 
   Map<String, dynamic> toMap() => {
         'relationship': relationship,
-        'dateOfBirth': dateOfBirth,
+        'dateOfBirth': dateOfBirth.toIso8601String(),
         'identityNumber': identityNumber,
         'phoneNumber': phoneNumber,
       };
