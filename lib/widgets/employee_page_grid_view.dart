@@ -6,14 +6,13 @@ class EmployeePageGridView extends StatelessWidget {
   const EmployeePageGridView(this.items, {super.key});
 
   final List items;
-  static var tap = 1;
 
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
       physics: const BouncingScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 150.0,
+          maxCrossAxisExtent: 130.0,
           mainAxisSpacing: 50.0,
           crossAxisSpacing: 50.0),
       itemCount: items.length,
@@ -21,15 +20,16 @@ class EmployeePageGridView extends StatelessWidget {
         return Container(
           alignment: Alignment.center,
           decoration: BoxDecoration(
+
             gradient:   LinearGradient(
               colors: [
-                appPrimaryColor.withOpacity(0.85),
-                appSecondaryColor2
+                appPrimaryColor,
+                appSecondaryColor2.withOpacity(0.85)
               ],
               begin: Alignment.topCenter,
               end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.circular(20.0),
+            borderRadius: BorderRadius.circular(30.0),
           ),
           child: Text(
             (items[index] < 10)

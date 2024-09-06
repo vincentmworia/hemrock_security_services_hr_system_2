@@ -23,16 +23,16 @@ class GridListSwitch extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        switchDisplayStyle(title == 'Grid' ? ViewData.grid : ViewData.list);
+        switchDisplayStyle(title == 'Grid' ? ViewData.asGrid : ViewData.asList);
       },
       child: Container(
         width: deviceWidth * 0.05,
-        height: 45,
+        height: 40,
         decoration: BoxDecoration(
-          color: appPrimaryColor.withOpacity(active ? 1.0 : 0),
+          color: appPrimaryColor.withOpacity(active ? 0.95 : 0),
           border: Border.all(
-            width: 2.0,
-            color: active ? appPrimaryColor : appPrimaryColor.withOpacity(0.5),
+            width: 0,
+            color:  appPrimaryColor  ,
           ),
           borderRadius: title == 'Grid'
               ? const BorderRadius.only(

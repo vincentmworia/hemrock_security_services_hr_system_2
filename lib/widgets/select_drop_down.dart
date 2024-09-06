@@ -1,43 +1,55 @@
 import 'package:flutter/material.dart';
+import 'package:hrsystem/main.dart';
 
 class SelectDropDown extends StatefulWidget {
-  const SelectDropDown({super.key});
+  const SelectDropDown({super.key, required this.switchCurrentSearchCategory});
+
+  static const defaultCategory = 'Payroll Number';
+
+  final void Function(String) switchCurrentSearchCategory;
 
   @override
   State<SelectDropDown> createState() => _SelectDropDownState();
 }
 
 class _SelectDropDownState extends State<SelectDropDown> {
-  var _value = 'One';
+  var _value = SelectDropDown.defaultCategory;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      // width: 100,
+    return Center(
       child: DropdownButton<String>(
         value: _value,
-        // icon: Icon(null),
-        iconSize: 24,
-        elevation: 16,
-        // style: TextStyle(color: Colors.deepPurple),
+        iconSize: 0,
+        elevation: 5,
         underline: Container(
           height: 0,
-          color: Colors.green,
         ),
         onChanged: (String? newValue) {
           setState(() {
             _value = newValue!;
+            widget.switchCurrentSearchCategory(newValue);
           });
+          // updateSearchedText(newValue);
         },
         items: <String>[
-          'One',
-          'Two',
-          'Three',
-          'Four',
+          'Payroll Number',
+          'Surname',
+          'Other name(s)',
+          'Work Station',
+          'Date of Hire',
+          'Position',
+          'Gender',
         ].map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
-            child: Text(value),
+            child: Text(
+              value,
+              style: TextStyle(
+                color: (value == _value) ? appSecondaryColor2 : appPrimaryColor,
+                // fontSize: 18.0,
+              ),
+            ),
           );
         }).toList(),
       ),

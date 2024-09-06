@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
 
 class SearchBox extends StatefulWidget {
-  const SearchBox({super.key});
+  const SearchBox(
+      {super.key,
+      required this.updateSearchedText,
+      required this.searchCategory});
+
+  final String searchCategory;
+  final void Function(String) updateSearchedText;
 
   @override
   State<SearchBox> createState() => _SearchBoxState();
 }
 
 class _SearchBoxState extends State<SearchBox> {
-  final _searchValueController = TextEditingController();
+  final searchValueController = TextEditingController();
 
   @override
   void dispose() {
     super.dispose();
-    _searchValueController.dispose();
+    searchValueController.dispose();
   }
 
   @override
@@ -21,10 +27,13 @@ class _SearchBoxState extends State<SearchBox> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: SizedBox(
-        width: 200.0,
+        width: 250.0,
         child: TextFormField(
+          onChanged: (value) {
+            widget.updateSearchedText(value);
+          },
           key: const ValueKey('search'),
-          controller: _searchValueController,
+          controller: searchValueController,
           keyboardType: TextInputType.name,
           textCapitalization: TextCapitalization.sentences,
           textInputAction: TextInputAction.done,
@@ -35,8 +44,8 @@ class _SearchBoxState extends State<SearchBox> {
             ),
             filled: true,
             fillColor: Colors.white,
-            contentPadding: const EdgeInsets.symmetric(vertical: 10.0),
-            hintText: 'Payroll Number',
+            contentPadding: const EdgeInsets.all(10.0),
+            hintText: 'Search by ${widget.searchCategory}',
             prefixIcon: Icon(
               Icons.search,
               color: Theme.of(context).colorScheme.primary,

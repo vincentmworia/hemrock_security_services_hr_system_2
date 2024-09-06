@@ -8,11 +8,14 @@ import './date_specifications.dart';
 import './witness_details.dart';
 
 class Employee {
-  // OfficeDetails
-  final OfficeDetails officeDetails;
+  // Payroll Number Key
+  final String payrollNumber;
 
   // Personal Data
   final PersonalData personalData;
+
+  // OfficeDetails
+  final OfficeDetails officeDetails;
 
   // Family Data
   final FamilyData familyData;
@@ -34,6 +37,7 @@ class Employee {
   final WitnessDetails witnessDetails;
 
   Employee({
+    required this.payrollNumber,
     required this.officeDetails,
     required this.personalData,
     required this.familyData,
@@ -44,4 +48,40 @@ class Employee {
     required this.dateSpecifications,
     required this.witnessDetails,
   });
+
+  static fromMap(Map<String, dynamic> employee) => Employee(
+        payrollNumber: employee.keys.first,
+        personalData:
+            PersonalData.fromMap(employee[employee.keys.first]['personalData']),
+        officeDetails: OfficeDetails.fromMap(
+            employee[employee.keys.first]['officeDetails']),
+        familyData:
+            FamilyData.fromMap(employee[employee.keys.first]['familyData']),
+        addressData:
+            AddressData.fromMap(employee[employee.keys.first]['addressData']),
+        nextOfKin1:
+            NextOfKin.fromMap(employee[employee.keys.first]['nextOfKin1']),
+        nextOfKin2:
+            NextOfKin.fromMap(employee[employee.keys.first]['nextOfKin2']),
+        paymentData:
+            PaymentData.fromMap(employee[employee.keys.first]['paymentData']),
+        dateSpecifications: DateSpecifications.fromMap(
+            employee[employee.keys.first]['dateSpecifications']),
+        witnessDetails: WitnessDetails.fromMap(
+            employee[employee.keys.first]['witnessDetails']),
+      );
+
+  Map<String, dynamic> toMap() => {
+        payrollNumber: {
+          'personalData': personalData.toMap(),
+          'officeDetails': officeDetails.toMap(),
+          'familyData': familyData.toMap(),
+          'addressData': addressData.toMap(),
+          'nextOfKin1': nextOfKin1.toMap(),
+          'nextOfKin2': nextOfKin2?.toMap(),
+          'paymentData': paymentData.toMap(),
+          'dateSpecifications': dateSpecifications.toMap(),
+          'witnessDetails': witnessDetails.toMap(),
+        }
+      };
 }

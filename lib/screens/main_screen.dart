@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hrsystem/dummy_data.dart';
 import 'package:hrsystem/screens/template_screen.dart';
 
 import '../main.dart';
@@ -67,6 +68,10 @@ class _MainScreenState extends State<MainScreen> {
     }
   }
 
+  void _testApi() {
+    print(dummyEmployees[0]);
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
@@ -74,6 +79,8 @@ class _MainScreenState extends State<MainScreen> {
     final windowHeight = (mediaQuery.size.height - mediaQuery.padding.top);
 
     final leftPaneWidth = (windowWidth < 1500 ? 1500 : windowWidth) * 0.05;
+
+
 
     return Scaffold(
       backgroundColor: appPrimaryColor,

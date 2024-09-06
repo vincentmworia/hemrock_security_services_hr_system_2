@@ -1,13 +1,15 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../widgets/employee_page_control.dart';
 import '../../widgets/employee_page_grid_view.dart';
+import '../../widgets/select_drop_down.dart';
 import '../main_screen.dart';
 import '../template_screen.dart';
 
 enum ViewData {
-  grid,
-  list,
+  asGrid,
+  asList,
 }
 
 enum SortOrder {
@@ -31,18 +33,21 @@ class EmployeesPage extends StatefulWidget {
 }
 
 class _EmployeesPageState extends State<EmployeesPage> {
-  static List<int> items = List.generate(20, (index) => index);
+  static List<int> items = List.generate(2, (index) => index);
 
-  ViewData _view = ViewData.grid;
+  ViewData _view = ViewData.asGrid;
+
+  String? _searchedText = '';
+  String _currentCategory = SelectDropDown.defaultCategory;
 
   SortOrder _sort = SortOrder.ascending;
 
   Widget displayEmployees(ViewData v) {
     switch (v) {
-      case ViewData.grid:
+      case ViewData.asGrid:
         return EmployeePageGridView(items);
 
-      case ViewData.list:
+      case ViewData.asList:
         return const TemplateScreenView('ListView');
       default:
         return EmployeePageGridView(items);
@@ -61,6 +66,21 @@ class _EmployeesPageState extends State<EmployeesPage> {
     });
   }
 
+  void _updateSearchedText(String text) {
+    setState(() {
+      _searchedText = text;
+      if (kDebugMode) {
+        print(_searchedText);
+      }
+    });
+  }
+
+  void _switchCurrentSearchCategory(String text) {
+    setState(() {
+      _currentCategory = text;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
@@ -71,7 +91,7 @@ class _EmployeesPageState extends State<EmployeesPage> {
       borderRadius: const BorderRadius.only(topLeft: Radius.circular(20.0)),
       child: Container(
         color: Colors.white,
-        child: (deviceWidth < 1000 || deviceHeight < 500)
+        child: (deviceWidth < 1250 || deviceHeight < 500)
             ? const Center()
             : Column(
                 children: <Widget>[
@@ -82,6 +102,9 @@ class _EmployeesPageState extends State<EmployeesPage> {
                     sort: _sort,
                     switchSort: _switchSorting,
                     addEmployeeBn: widget.addEmployeeBn,
+                    updateSearchedText: _updateSearchedText,
+                    searchCategory: _currentCategory,
+                    switchCurrentSearchCategory: _switchCurrentSearchCategory,
                   ),
                   const Divider(),
                   Expanded(

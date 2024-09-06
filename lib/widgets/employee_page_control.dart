@@ -6,8 +6,9 @@ import '../widgets/grid_list_switch.dart';
 import '../main.dart';
 import './search_box.dart';
 import './select_drop_down.dart';
+import './ascending_descending_sort_icon.dart';
 
-class EmployeePageControl extends StatelessWidget {
+class EmployeePageControl extends StatefulWidget {
   const EmployeePageControl({
     super.key,
     required this.deviceWidth,
@@ -16,38 +17,77 @@ class EmployeePageControl extends StatelessWidget {
     required this.switchSort,
     required this.sort,
     required this.addEmployeeBn,
+    required this.updateSearchedText,
+    required this.searchCategory,
+    required this.switchCurrentSearchCategory,
   });
 
   final double deviceWidth;
   final ViewData view;
   final SortOrder sort;
+  final String searchCategory;
   final void Function(PageDisplay) addEmployeeBn;
   final void Function(ViewData) switchDisplayStyle;
   final void Function(SortOrder) switchSort;
+  final void Function(String) updateSearchedText;
+  final void Function(String) switchCurrentSearchCategory;
+
+  @override
+  State<EmployeePageControl> createState() => _EmployeePageControlState();
+}
+
+class _EmployeePageControlState extends State<EmployeePageControl> {
+  var _search = false;
+
+  void _switchSearch(/*[bool revertOnDeviceCompressed = false]*/) {
+    // if (revertOnDeviceCompressed) {
+    //   setState(() => _search = false);
+    // } else {
+    setState(() => _search = !_search);
+    // }
+  }
+
+  var _visibleWidgets = false;
+
+  void _pTrigLogic() {
+    if (!_visibleWidgets && _search) {
+      Future.delayed(const Duration(milliseconds: 300)).then((value) {
+        setState(() {
+          _visibleWidgets = true;
+        });
+      });
+    }
+    if (_visibleWidgets && !_search) {
+      setState(() => _visibleWidgets = false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    _pTrigLogic();
     return Padding(
-      padding: const EdgeInsets.only(left: 30.0, top: 10.0, bottom: 10.0, right: 30.0),
+      padding: const EdgeInsets.only(
+          left: 30.0, top: 10.0, bottom: 10.0, right: 30.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(
-                  elevation: 5.0,
-                  fixedSize: const Size(200, 50),
-                  backgroundColor: appSecondaryColor),
-              icon: const Icon(
-                Icons.add,
-                color: appPrimaryColor,
-              ),
-              onPressed: () => addEmployeeBn(PageDisplay.addEmployee),
-              label: const Text(
-                'Add New Employee',
-                style: TextStyle(
+          if (!_search)
+            ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                    elevation: 5.0,
+                    fixedSize: const Size(200, 50),
+                    backgroundColor: appSecondaryColor),
+                icon: const Icon(
+                  Icons.add,
                   color: appPrimaryColor,
                 ),
-              )),
+                onPressed: () => widget.addEmployeeBn(PageDisplay.addEmployee),
+                label: const Text(
+                  'Add New Employee',
+                  style: TextStyle(
+                    color: appPrimaryColor,
+                  ),
+                )),
           const Text(
             'Staff Members',
             style: TextStyle(
@@ -64,36 +104,53 @@ class EmployeePageControl extends StatelessWidget {
               Row(
                 children: [
                   GridListSwitch(
-                    deviceWidth: deviceWidth,
+                    deviceWidth: widget.deviceWidth,
                     title: 'Grid',
-                    active: view == ViewData.grid,
-                    currentView: ViewData.grid,
-                    switchDisplayStyle: switchDisplayStyle,
+                    active: widget.view == ViewData.asGrid,
+                    currentView: ViewData.asGrid,
+                    switchDisplayStyle: widget.switchDisplayStyle,
                   ),
                   GridListSwitch(
-                    deviceWidth: deviceWidth,
+                    deviceWidth: widget.deviceWidth,
                     title: 'List',
-                    active: view == ViewData.list,
-                    currentView: ViewData.grid,
-                    switchDisplayStyle: switchDisplayStyle,
+                    active: widget.view == ViewData.asList,
+                    currentView: ViewData.asGrid,
+                    switchDisplayStyle: widget.switchDisplayStyle,
                   ),
                 ],
               ),
-              if (deviceWidth > 1200) const SearchBox(),
-              if (deviceWidth > 1300) const SelectDropDown(),
-              const SizedBox(
-                width: 10.0,
-              ),
-              IconButton(
-                onPressed: () => switchSort(
-                    sort == SortOrder.ascending ? SortOrder.descending : SortOrder.ascending),
-                icon: Icon(
-                  sort == SortOrder.ascending
-                      ? Icons.arrow_upward_sharp
-                      : Icons.arrow_downward,
-                  size: 30.0,
+              if (_search)
+                !_visibleWidgets
+                    ? SizedBox(width: widget.deviceWidth * 0.4)
+                    : Row(
+                        children: [
+                          // if (widget.deviceWidth > 1200)
+                          SearchBox(
+                            updateSearchedText: widget.updateSearchedText,
+                            searchCategory: widget.searchCategory,
+                          ),
+                          // if (widget.deviceWidth > 1300)
+                          SelectDropDown(
+                              switchCurrentSearchCategory:
+                                  widget.switchCurrentSearchCategory),
+                          AscendingDescendingSortIcon(
+                            sort: widget.sort,
+                            switchSort: widget.switchSort,
+                          ),
+                        ],
+                      ),
+              Padding(
+                padding: const EdgeInsets.only(left: 20.0),
+                child: FloatingActionButton(
+                  onPressed: () => _switchSearch(),
+                  backgroundColor: appSecondaryColor,
+                  child: Icon(
+                    _search ? Icons.arrow_forward_ios_rounded : Icons.search,
+                    size: 30.0,
+                    color: appPrimaryColor,
+                  ),
                 ),
-              )
+              ),
             ],
           ),
         ],
