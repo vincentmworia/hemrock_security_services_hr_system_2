@@ -45,12 +45,12 @@ class _EmployeesPageState extends State<EmployeesPage> {
   Widget displayEmployees(ViewData v) {
     switch (v) {
       case ViewData.asGrid:
-        return EmployeePageGridView(items);
+        return EmployeePageGridView( );
 
       case ViewData.asList:
         return const TemplateScreenView('ListView');
       default:
-        return EmployeePageGridView(items);
+        return EmployeePageGridView( );
     }
   }
 

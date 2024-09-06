@@ -219,7 +219,7 @@ var dataInDatabase = {
   }
 };
 
-void main() {
-  final dat =Employee.fromMap(dataInDatabase) as Employee;
-  print(dat.paymentData.netPayBasicSalary);
-}
+// void main() {
+//   final dat =Employee.fromMap(dataInDatabase) as Employee;
+//   print(dat.paymentData.netPayBasicSalary);
+// }

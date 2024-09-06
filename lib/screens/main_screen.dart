@@ -71,7 +71,7 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void _testApi() {
-    print(dummyEmployees[0]);
+
   }
 
   @override
