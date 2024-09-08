@@ -16,7 +16,7 @@ class EmployeePageControl extends StatefulWidget {
     required this.switchDisplayStyle,
     required this.switchSort,
     required this.sort,
-    required this.addEmployeeBn,
+    required this.switchCurrentPage,
     required this.updateSearchedText,
     required this.searchCategory,
     required this.switchCurrentSearchCategory,
@@ -26,7 +26,7 @@ class EmployeePageControl extends StatefulWidget {
   final ViewData view;
   final SortOrder sort;
   final String searchCategory;
-  final void Function(PageDisplay) addEmployeeBn;
+  final void Function(PageDisplay) switchCurrentPage;
   final void Function(ViewData) switchDisplayStyle;
   final void Function(SortOrder) switchSort;
   final void Function(String) updateSearchedText;
@@ -81,7 +81,7 @@ class _EmployeePageControlState extends State<EmployeePageControl> {
                   Icons.add,
                   color: appPrimaryColor,
                 ),
-                onPressed: () => widget.addEmployeeBn(PageDisplay.addEmployee),
+                onPressed: () => widget.switchCurrentPage(PageDisplay.addEmployee),
                 label: const Text(
                   'Add New Employee',
                   style: TextStyle(

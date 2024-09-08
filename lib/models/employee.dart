@@ -49,6 +49,10 @@ class Employee {
     required this.witnessDetails,
   });
 
+  // todo Logic for checking whether any data is pending or not
+  // Pending Data?
+  bool get pendingData => true;
+
   static fromMap(Map<String, dynamic> employee) => Employee(
         payrollNumber: employee.keys.first,
         personalData:

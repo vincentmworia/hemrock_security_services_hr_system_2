@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hrsystem/screens/main_screen.dart';
 
 import '../main.dart';
 
@@ -12,6 +13,8 @@ class MainScreenTitle extends StatelessWidget {
     required this.extendPane,
     required this.windowIconPressed,
     required this.extendPaneFactor,
+    required this.switchCurrentPage,
+    required this.currentPage,
   });
 
   final double leftPaneWidth;
@@ -19,8 +22,10 @@ class MainScreenTitle extends StatelessWidget {
   final double windowHeight;
   final Duration animationContainerDuration;
   final void Function() windowIconPressed;
+  final void Function(PageDisplay) switchCurrentPage;
   final bool extendPane;
   final double extendPaneFactor;
+  final PageDisplay currentPage;
 
   @override
   Widget build(BuildContext context) => Row(
@@ -31,13 +36,19 @@ class MainScreenTitle extends StatelessWidget {
             duration: animationContainerDuration,
             child: IconButton(
               icon: Icon(
-                extendPane ? Icons.arrow_back : Icons.menu,
+                (extendPane || (currentPage == PageDisplay.addEmployee))
+                    ? Icons.arrow_back
+                    : Icons.menu,
                 size: 30,
                 color: extendPane ? appBrightSecondaryColor : appSecondaryColor,
               ),
-              onPressed: windowIconPressed,
-              splashColor: appSecondaryColor2.withOpacity(0.3),
-              highlightColor: appSecondaryColor2.withOpacity(0.3),
+              onPressed: (currentPage == PageDisplay.addEmployee)
+                  ? () {
+                switchCurrentPage(PageDisplay.employees);
+              }
+                  : windowIconPressed,
+              // splashColor: appSecondaryColor.withOpacity(0.3),
+              // highlightColor: appSecondaryColor.withOpacity(0.3),
             ),
           ),
           Expanded(

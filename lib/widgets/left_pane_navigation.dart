@@ -74,7 +74,7 @@ class _LeftPaneNavigationState extends State<LeftPaneNavigation> {
               ),
               LeftPaneIconButton(
                 icon: Icons.people,
-                titleText: 'Employees',
+                titleText: 'Staff',
                 buttonActive: widget.activePage == PageDisplay.employees,
                 extendPane: widget.extendPane,
                 buttonPage: PageDisplay.employees,

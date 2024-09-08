@@ -11,6 +11,7 @@ import './detailed_view/employees_page.dart';
 import './detailed_view/home_page.dart';
 import './detailed_view/payroll_page.dart';
 import './detailed_view/profile_page.dart';
+import 'detailed_view/add_employee_page.dart';
 
 enum PageDisplay {
   home,
@@ -40,16 +41,12 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
-  void _paneButtonPressed(PageDisplay activePg) {
+
+
+  void _switchCurrentPage(PageDisplay activePg) {
     setState(() {
       _currentPage = activePg;
       _extendPane = false;
-    });
-  }
-
-  void _addEmployeeBn(PageDisplay activePg) {
-    setState(() {
-      _currentPage = activePg;
     });
   }
 
@@ -58,9 +55,9 @@ class _MainScreenState extends State<MainScreen> {
       case PageDisplay.home:
         return const HomePage();
       case PageDisplay.employees:
-        return EmployeesPage(addEmployeeBn: _addEmployeeBn);
+        return EmployeesPage(switchCurrentPage: _switchCurrentPage);
       case PageDisplay.addEmployee:
-        return const TemplateScreenView('Add Employee Process');
+        return const AddEmployeePage();
       case PageDisplay.payroll:
         return const PayrollPage();
       case PageDisplay.profile:
@@ -70,9 +67,7 @@ class _MainScreenState extends State<MainScreen> {
     }
   }
 
-  void _testApi() {
-
-  }
+  void _testApi() {}
 
   @override
   Widget build(BuildContext context) {
@@ -97,19 +92,22 @@ class _MainScreenState extends State<MainScreen> {
               windowIconPressed: windowIconPressed,
               windowWidth: windowWidth,
               extendPaneFactor: extendPaneFactor,
+              switchCurrentPage: _switchCurrentPage,
+              currentPage: _currentPage,
             ),
             Expanded(
               child: Row(
                 children: [
-                  LeftPaneNavigation(
-                      extendPane: _extendPane,
-                      extendPaneFactor: extendPaneFactor,
-                      leftPaneWidth: leftPaneWidth,
-                      animationContainerMilliseconds:
-                          animationContainerMilliseconds,
-                      windowHeight: windowHeight,
-                      activePage: _currentPage,
-                      activatePage: _paneButtonPressed),
+                  if (!(_currentPage == PageDisplay.addEmployee))
+                    LeftPaneNavigation(
+                        extendPane: _extendPane,
+                        extendPaneFactor: extendPaneFactor,
+                        leftPaneWidth: leftPaneWidth,
+                        animationContainerMilliseconds:
+                            animationContainerMilliseconds,
+                        windowHeight: windowHeight,
+                        activePage: _currentPage,
+                        activatePage: _switchCurrentPage),
                   Expanded(
                     child: ChangeNotifierProvider(
                         create: (context) => EmployeesHandler(),

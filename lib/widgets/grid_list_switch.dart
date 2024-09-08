@@ -27,7 +27,7 @@ class GridListSwitch extends StatelessWidget {
       },
       child: Container(
         width: deviceWidth * 0.05,
-        height: 40,
+        height: 47,
         decoration: BoxDecoration(
           color: appPrimaryColor.withOpacity(active ? 0.95 : 0),
           border: Border.all(

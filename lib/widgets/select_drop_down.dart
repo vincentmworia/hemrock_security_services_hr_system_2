@@ -37,9 +37,7 @@ class _SelectDropDownState extends State<SelectDropDown> {
           'Surname',
           'Other name(s)',
           'Work Station',
-          'Date of Hire',
-          'Position',
-          'Gender',
+          'Position Title',
         ].map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,

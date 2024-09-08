@@ -3,11 +3,11 @@ enum Gender {
   female,
 }
 
-String _getGenderString(Gender gender) =>
-    gender == Gender.male ? 'male' : 'female';
+String getGenderString(Gender gender) =>
+    gender == Gender.male ? 'Male' : 'Female';
 
 Gender _getGenderEnum(String gender) =>
-    gender == 'male' ? Gender.male : Gender.female;
+    gender == 'Male' ? Gender.male : Gender.female;
 
 class PersonalData {
   final String surName;
@@ -51,7 +51,7 @@ class PersonalData {
   Map<String, dynamic> toMap() => {
         'surName': surName,
         'otherNames': otherNames,
-        'gender': _getGenderString(gender),
+        'gender': getGenderString(gender),
         'dateOfBirth': dateOfBirth.toIso8601String(),
         'citizenship': citizenship,
         'identityNumber': identityNumber,

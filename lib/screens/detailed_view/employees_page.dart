@@ -1,5 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:hrsystem/providers/employees_provider.dart';
+import 'package:hrsystem/widgets/employee_page_list_view.dart';
+import 'package:provider/provider.dart';
 
 import '../../widgets/employee_page_control.dart';
 import '../../widgets/employee_page_grid_view.dart';
@@ -24,9 +27,9 @@ enum SortCategory {
 }
 
 class EmployeesPage extends StatefulWidget {
-  const EmployeesPage({super.key, required this.addEmployeeBn});
+  const EmployeesPage({super.key, required this.switchCurrentPage});
 
-  final void Function(PageDisplay) addEmployeeBn;
+  final void Function(PageDisplay) switchCurrentPage;
 
   @override
   State<EmployeesPage> createState() => _EmployeesPageState();
@@ -42,16 +45,23 @@ class _EmployeesPageState extends State<EmployeesPage> {
 
   SortOrder _sort = SortOrder.ascending;
 
-  Widget displayEmployees(ViewData v) {
-    switch (v) {
-      case ViewData.asGrid:
-        return EmployeePageGridView( );
+  Widget _displayEmployees(ViewData v) {
+    return Consumer<EmployeesHandler>(
+        builder: (BuildContext context, item, Widget? child) {
+      item.getAllEmployees();
+      final allEmployeesData = item.allEmployees;
 
-      case ViewData.asList:
-        return const TemplateScreenView('ListView');
-      default:
-        return EmployeePageGridView( );
-    }
+      switch (v) {
+        case ViewData.asGrid:
+          return EmployeePageGridView(allEmployeesData);
+
+        case ViewData.asList:
+          return TemplateScreenView('List View');
+          // return EmployeePageListView(allEmployeesData);
+        default:
+          return EmployeePageGridView(allEmployeesData);
+      }
+    });
   }
 
   void _switchDisplayStyle(ViewData v) {
@@ -101,7 +111,7 @@ class _EmployeesPageState extends State<EmployeesPage> {
                     switchDisplayStyle: _switchDisplayStyle,
                     sort: _sort,
                     switchSort: _switchSorting,
-                    addEmployeeBn: widget.addEmployeeBn,
+                    switchCurrentPage: widget.switchCurrentPage,
                     updateSearchedText: _updateSearchedText,
                     searchCategory: _currentCategory,
                     switchCurrentSearchCategory: _switchCurrentSearchCategory,
@@ -110,7 +120,7 @@ class _EmployeesPageState extends State<EmployeesPage> {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(30.0),
-                      child: displayEmployees(_view),
+                      child: _displayEmployees(_view),
                     ),
                   )
                 ],

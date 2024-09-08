@@ -12,7 +12,7 @@ const _administratorString = 'Administrator';
 const _contractGuardString = 'Contract Guard';
 const _relieverGuardString = 'Reliever Guard';
 
-String _getPositionTitleString(PositionTitle pos) {
+String getPositionTitleString(PositionTitle pos) {
   switch (pos) {
     case PositionTitle.aDirector:
       return _directorString;
@@ -66,7 +66,7 @@ class OfficeDetails {
 
   Map<String, dynamic> toMap() => {
         'dateOfHire': dateOfHire.toIso8601String(),
-        'positionTitle': _getPositionTitleString(positionTitle),
+        'positionTitle': getPositionTitleString(positionTitle),
         'employeePeriod': employeePeriod,
         'workStation': workStation
       };

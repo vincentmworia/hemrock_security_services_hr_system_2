@@ -55,7 +55,7 @@ class _LeftPaneIconButtonState extends State<LeftPaneIconButton> {
               style: TextStyle(
                   color:
                       !widget.buttonActive ? _inactiveBnColor : _activeBnColor,
-                  fontSize: 24.0),
+                  fontSize: 20.0),
             ),
         ],
       ),
