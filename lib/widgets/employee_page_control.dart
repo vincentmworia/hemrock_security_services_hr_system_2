@@ -101,24 +101,24 @@ class _EmployeePageControlState extends State<EmployeePageControl> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Row(
-                children: [
-                  GridListSwitch(
-                    deviceWidth: widget.deviceWidth,
-                    title: 'Grid',
-                    active: widget.view == ViewData.asGrid,
-                    currentView: ViewData.asGrid,
-                    switchDisplayStyle: widget.switchDisplayStyle,
-                  ),
-                  GridListSwitch(
-                    deviceWidth: widget.deviceWidth,
-                    title: 'List',
-                    active: widget.view == ViewData.asList,
-                    currentView: ViewData.asGrid,
-                    switchDisplayStyle: widget.switchDisplayStyle,
-                  ),
-                ],
-              ),
+              // Row(
+              //   children: [
+              //     GridListSwitch(
+              //       deviceWidth: widget.deviceWidth,
+              //       title: 'Grid',
+              //       active: widget.view == ViewData.asGrid,
+              //       currentView: ViewData.asGrid,
+              //       switchDisplayStyle: widget.switchDisplayStyle,
+              //     ),
+              //     GridListSwitch(
+              //       deviceWidth: widget.deviceWidth,
+              //       title: 'List',
+              //       active: widget.view == ViewData.asList,
+              //       currentView: ViewData.asGrid,
+              //       switchDisplayStyle: widget.switchDisplayStyle,
+              //     ),
+              //   ],
+              // ),
               if (_search)
                 !_visibleWidgets
                     ? SizedBox(width: widget.deviceWidth * 0.4)

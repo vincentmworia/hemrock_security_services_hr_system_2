@@ -18,7 +18,7 @@ class TemplateScreenView extends StatelessWidget {
       ),
       child: Center(
         child: Text(
-          '$title View',
+          '$title',
           style: const TextStyle(
             color: appSecondaryColor,
             fontSize: 30.0,

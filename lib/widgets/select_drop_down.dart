@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hrsystem/main.dart';
+import 'package:hrsystem/models/drop_down_data.dart';
 
 class SelectDropDown extends StatefulWidget {
   const SelectDropDown({super.key, required this.switchCurrentSearchCategory});
@@ -7,6 +8,8 @@ class SelectDropDown extends StatefulWidget {
   static const defaultCategory = 'Payroll Number';
 
   final void Function(String) switchCurrentSearchCategory;
+
+
 
   @override
   State<SelectDropDown> createState() => _SelectDropDownState();
@@ -33,11 +36,7 @@ class _SelectDropDownState extends State<SelectDropDown> {
           // updateSearchedText(newValue);
         },
         items: <String>[
-          'Payroll Number',
-          'Surname',
-          'Other name(s)',
-          'Work Station',
-          'Position Title',
+           ...DropDownData.stringList
         ].map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,

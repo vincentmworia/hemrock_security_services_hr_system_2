@@ -4,7 +4,7 @@ class PaymentData {
   final int payeCut;
   final int nhifCut;
   final int nssfCut;
-  final Map<String, int> otherCuts;
+  final Map<String, dynamic> otherCuts;
   final BankDetails bankDetails;
 
   PaymentData({

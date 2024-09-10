@@ -33,15 +33,13 @@ class _MainScreenState extends State<MainScreen> {
   static const extendPaneFactor = 2.5;
 
   var _extendPane = false;
-  var _currentPage = PageDisplay.employees;
+  var _currentPage = PageDisplay.addEmployee;
 
   void windowIconPressed() {
     setState(() {
       _extendPane = !_extendPane;
     });
   }
-
-
 
   void _switchCurrentPage(PageDisplay activePg) {
     setState(() {

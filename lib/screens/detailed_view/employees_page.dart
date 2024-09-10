@@ -1,5 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:hrsystem/main.dart';
+
+import 'package:http/http.dart' as http;
 import 'package:hrsystem/providers/employees_provider.dart';
 import 'package:hrsystem/widgets/employee_page_list_view.dart';
 import 'package:provider/provider.dart';
@@ -37,6 +42,9 @@ class EmployeesPage extends StatefulWidget {
 
 class _EmployeesPageState extends State<EmployeesPage> {
   static List<int> items = List.generate(2, (index) => index);
+  final List<Map<String, dynamic>> allEmployees = [];
+
+  var _isLoading = false;
 
   ViewData _view = ViewData.asGrid;
 
@@ -45,24 +53,15 @@ class _EmployeesPageState extends State<EmployeesPage> {
 
   SortOrder _sort = SortOrder.ascending;
 
-  Widget _displayEmployees(ViewData v) {
-    return Consumer<EmployeesHandler>(
-        builder: (BuildContext context, item, Widget? child) {
-      item.getAllEmployees();
-      final allEmployeesData = item.allEmployees;
-
-      switch (v) {
-        case ViewData.asGrid:
-          return EmployeePageGridView(allEmployeesData);
-
-        case ViewData.asList:
-          return TemplateScreenView('List View');
-          // return EmployeePageListView(allEmployeesData);
-        default:
-          return EmployeePageGridView(allEmployeesData);
-      }
-    });
-  }
+  // Widget _displayEmployees(ViewData v) {
+  //   // setState(() {
+  //   //   _isLoading = true;
+  //   // });
+  //
+  //   return;
+  //
+  //
+  // }
 
   void _switchDisplayStyle(ViewData v) {
     setState(() {
@@ -119,8 +118,13 @@ class _EmployeesPageState extends State<EmployeesPage> {
                   const Divider(),
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.all(30.0),
-                      child: _displayEmployees(_view),
+                      padding: const EdgeInsets.only(
+                          left: 30.0, right: 30.0, top: 10.0, bottom: 5.0),
+                      child: EmployeePageGridView(
+                        sortOrder: _sort,
+                        currentCategory: _currentCategory,
+                        searchData: _searchedText?.toLowerCase() ?? '',
+                      ),
                     ),
                   )
                 ],
