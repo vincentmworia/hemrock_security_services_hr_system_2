@@ -78,15 +78,11 @@ class EmployeePageListView extends StatelessWidget {
                     subtitle: Text(
                       employee.payrollNumber,
                       style: TextStyle(
-                        color: appSecondaryColor,letterSpacing: 3.0
-                      ),
+                          color: appSecondaryColor, letterSpacing: 3.0),
                     ),
                     trailing: Text(
-                      '${employee.officeDetails.workStation} - ${getPositionTitleString(employee.officeDetails.positionTitle)}',
-                      style: TextStyle(
-                        color: appPrimaryColor,
-                        fontSize: 18
-                      ),
+                      '${employee.officeDetails.workStation} - ${getPositionTitleString(employee.officeDetails.positionTitle!)}',
+                      style: TextStyle(color: appPrimaryColor, fontSize: 18),
                     ),
                   ),
                 ),

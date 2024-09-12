@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:hrsystem/widgets/add_employee_category_template.dart';
-import 'package:hrsystem/widgets/add_employee_personal_data.dart';
 
+import 'package:hrsystem/widgets/add_employee_category_template.dart';
+import 'package:hrsystem/widgets/add_employee_office_data.dart';
+import 'package:hrsystem/widgets/add_employee_personal_data.dart';
 import '../../main.dart';
 import '../../widgets/custom_input_field.dart';
 
-class AddEmployeePage extends StatelessWidget {
+class AddEmployeePage extends StatefulWidget {
   const AddEmployeePage({super.key});
 
   // final int currentStep;
@@ -16,12 +17,33 @@ class AddEmployeePage extends StatelessWidget {
   static const _spacing = SizedBox(width: 20);
 
   @override
+  State<AddEmployeePage> createState() => _AddEmployeePageState();
+}
+
+class _AddEmployeePageState extends State<AddEmployeePage> {
+  var _personalIconReady = 0;
+
+  _switchPersonalDataIcon(int toSwitch) {
+    setState(() {
+      _personalIconReady = toSwitch;
+    });
+  }
+
+  var _officeIconReady = 0;
+
+  _switchOfficeDataIcon(int toSwitch) {
+    setState(() {
+      _personalIconReady = toSwitch;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ClipRRect(
         borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
         child: Container(
-          color: Colors.white.withOpacity(0.5),
+          color: Colors.white.withOpacity(0.75),
           // color: appSecondaryColor2.withOpacity(0.5),
           padding: const EdgeInsets.only(top: 30, left: 15, right: 15),
           child: Stack(
@@ -29,6 +51,7 @@ class AddEmployeePage extends StatelessWidget {
             children: [
               Image.asset(
                 logoImage,
+
                 // width: windowWidth * 0.1,
                 // height: windowHeight * 0.1,
                 fit: BoxFit.contain,
@@ -39,31 +62,39 @@ class AddEmployeePage extends StatelessWidget {
                   physics: const BouncingScrollPhysics(),
                   child: Column(
                     children: [
-                      Wrap(
-                        children: [
-                          AddEmployeeCategoryTemplate(
-                              maxWidth: cons.maxWidth,
-                              title: 'Personal Details',
-                              child: const AddEmployeePersonalData()),
-                          _spacing,
-                          AddEmployeeCategoryTemplate(
-                              maxWidth: cons.maxWidth,
-                              title: 'Office Details',
-                              child: Center()),
-                          _spacing,
-                          AddEmployeeCategoryTemplate(
-                              maxWidth: cons.maxWidth,
-                              title: 'Payment Details',
-                              child: Center()),
-                          _spacing,
-                          AddEmployeeCategoryTemplate(
-                            maxWidth: cons.maxWidth,
-                            title: 'Witness Details',
-                            child: Center(),
-                          ),
-                          _spacing
-                        ],
+                      AddEmployeeCategoryTemplate(
+                          maxWidth: cons.maxWidth,
+                          title: 'Personal Details',
+                          containerHeight: 500,
+                          isReady: _personalIconReady,
+                          child: AddEmployeePersonalData(
+                            switchIcon: _switchPersonalDataIcon,
+                          )),
+                      AddEmployeePage._spacing,
+                      AddEmployeeCategoryTemplate(
+                        maxWidth: cons.maxWidth,
+                        title: 'Office Details',
+                        containerHeight: 350,
+                        isReady: _officeIconReady,
+                        child: AddEmployeeOfficeData(
+                            switchIcon: _switchOfficeDataIcon),
                       ),
+                      AddEmployeePage._spacing,
+                      AddEmployeeCategoryTemplate(
+                          maxWidth: cons.maxWidth,
+                          title: 'Payment Details',
+                          containerHeight: 350,
+                          isReady: 2,
+                          child: Center()),
+                      AddEmployeePage._spacing,
+                      AddEmployeeCategoryTemplate(
+                        maxWidth: cons.maxWidth,
+                        title: 'Witness Details',
+                        containerHeight: 350,
+                        isReady: 1,
+                        child: Center(),
+                      ),
+                      AddEmployeePage._spacing
                     ],
                   ),
                 );

@@ -27,7 +27,7 @@ String getPositionTitleString(PositionTitle pos) {
   }
 }
 
-PositionTitle _returnPositonTitle(String pos) {
+PositionTitle _returnPositionTitle(String pos) {
   switch (pos) {
     case _directorString:
       return PositionTitle.aDirector;
@@ -45,28 +45,28 @@ PositionTitle _returnPositonTitle(String pos) {
 }
 
 class OfficeDetails {
-  final DateTime dateOfHire;
-  final PositionTitle positionTitle;
-  final String employeePeriod;
-  final String workStation;
+  DateTime? dateOfHire;
+  PositionTitle? positionTitle;
+  int? employeePeriod;
+  String? workStation;
 
   OfficeDetails({
-    required this.dateOfHire,
-    required this.positionTitle,
-    required this.employeePeriod,
-    required this.workStation,
+    this.dateOfHire,
+    this.positionTitle,
+    this.employeePeriod,
+    this.workStation,
   });
 
   static OfficeDetails fromMap(Map<String, dynamic> officeDetails) =>
       OfficeDetails(
           dateOfHire: DateTime.parse(officeDetails['dateOfHire']),
-          positionTitle: _returnPositonTitle(officeDetails['positionTitle']),
+          positionTitle: _returnPositionTitle(officeDetails['positionTitle']),
           employeePeriod: officeDetails['employeePeriod'],
           workStation: officeDetails['workStation']);
 
   Map<String, dynamic> toMap() => {
-        'dateOfHire': dateOfHire.toIso8601String(),
-        'positionTitle': getPositionTitleString(positionTitle),
+        'dateOfHire': dateOfHire?.toIso8601String(),
+        'positionTitle': getPositionTitleString(positionTitle!),
         'employeePeriod': employeePeriod,
         'workStation': workStation
       };

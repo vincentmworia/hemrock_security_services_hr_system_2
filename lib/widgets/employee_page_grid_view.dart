@@ -231,12 +231,12 @@ class EmployeePageGridView extends StatelessWidget {
                               color: appSecondaryColor2,
                             ),
                             title: Text(
-                              employee.officeDetails.workStation,
+                              '${employee.officeDetails.workStation}',
                               style: const TextStyle(color: appSecondaryColor),
                             ),
                             trailing: Text(
                               getPositionTitleString(
-                                  employee.officeDetails.positionTitle),
+                                  employee.officeDetails.positionTitle!),
                               style: const TextStyle(color: appSecondaryColor2),
                             ),
                           ),

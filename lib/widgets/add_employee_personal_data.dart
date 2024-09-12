@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:hrsystem/models/personal_data.dart';
-import 'package:intl/intl.dart';
 
+import '../models/personal_data.dart';
+import 'package:intl/intl.dart';
 import '../main.dart';
 import 'custom_input_field.dart';
 
 class AddEmployeePersonalData extends StatefulWidget {
-  const AddEmployeePersonalData({super.key});
+  const AddEmployeePersonalData({super.key, required this.switchIcon});
+
+  final void Function(int toSwitch) switchIcon;
 
   @override
   State<AddEmployeePersonalData> createState() =>
@@ -16,10 +18,39 @@ class AddEmployeePersonalData extends StatefulWidget {
 class _AddEmployeePersonalDataState extends State<AddEmployeePersonalData> {
   final _formKey = GlobalKey<FormState>();
 
+  SnackBar _snackBar(String message) => SnackBar(
+        content: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            message,
+            style: const TextStyle(color: appPrimaryColor, fontSize: 18),
+          ),
+        ),
+        backgroundColor: appSecondaryColor.withOpacity(0.5),
+        behavior: SnackBarBehavior.floating,
+        duration: const Duration(milliseconds: 2000),
+      );
+
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Form Submitted')));
+      print(_selectedDate);
+      if (_selectedDate == null) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(_snackBar('Select the date of birth'));
+      }
+      if (_selectedDate != null) {
+        // If all fields are valid, save the form
+        _formKey.currentState!.save();
+        _personalData.gender = getGenderEnum(_selectedGender);
+        _personalData.dateOfBirth = _selectedDate;
+
+        print(_personalData.toMap());
+
+        widget.switchIcon(_personalData.hasNullValue ? 1 : 2);
+
+        ScaffoldMessenger.of(context)
+            .showSnackBar(_snackBar('Personal Data is okay'));
+      }
     }
   }
 
@@ -62,7 +93,7 @@ class _AddEmployeePersonalDataState extends State<AddEmployeePersonalData> {
       context: context,
       initialDate: DateTime.now(), // Default to today's date
       firstDate: DateTime(1900), // Earliest date available
-      lastDate: DateTime(2100), // Latest date available
+      lastDate: DateTime.now(), // Latest date available
     );
     if (pickedDate != null && pickedDate != _selectedDate) {
       setState(() {
@@ -79,7 +110,7 @@ class _AddEmployeePersonalDataState extends State<AddEmployeePersonalData> {
 
   @override
   Widget build(BuildContext context) {
-    print(_selectedDate.toString());
+    // print(_selectedDate.toString());
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Form(
@@ -88,7 +119,7 @@ class _AddEmployeePersonalDataState extends State<AddEmployeePersonalData> {
           return Column(children: [
             Expanded(
                 child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                   CustomInputField(
                     controller: _surnameController,
@@ -110,6 +141,7 @@ class _AddEmployeePersonalDataState extends State<AddEmployeePersonalData> {
                     },
                     onSaved: (value) {
                       _personalData.surName = value!;
+                      // print(_personalData.surName);
                     },
                   ),
                   Expanded(
@@ -178,7 +210,7 @@ class _AddEmployeePersonalDataState extends State<AddEmployeePersonalData> {
                 ])),
             Expanded(
                 child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                   CustomInputField(
                     controller: _identityNumberController,
@@ -201,7 +233,7 @@ class _AddEmployeePersonalDataState extends State<AddEmployeePersonalData> {
                       return null;
                     },
                     onSaved: (value) {
-                      _personalData.identityNumber = value! as int?;
+                      _personalData.identityNumber = int.parse(value!);
                     },
                   ),
                   CustomInputField(
@@ -229,7 +261,7 @@ class _AddEmployeePersonalDataState extends State<AddEmployeePersonalData> {
                       return null;
                     },
                     onSaved: (value) {
-                      _personalData.phoneNumber = value! as int?;
+                      _personalData.phoneNumber = int.parse(value!);
                     },
                   ),
                   CustomInputField(
@@ -256,17 +288,19 @@ class _AddEmployeePersonalDataState extends State<AddEmployeePersonalData> {
                   ),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        fixedSize: Size(cons.maxWidth * 0.2, 50),
-                        backgroundColor: appSecondaryColor),
+                      elevation: 2,
+                      fixedSize: Size(cons.maxWidth * 0.2, 50),
+                      backgroundColor: appSecondaryColor,
+                    ),
                     onPressed: () => _selectDate(context),
                     child: Text(_selectedDate == null
-                        ? 'Date of Birth'
+                        ? 'Date of Birth:'
                         : 'Date of birth: ${_formatDateTime(_selectedDate!)}'),
                   )
                 ])),
             Expanded(
                 child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                   CustomInputField(
                     controller: _kraPinController,
@@ -280,9 +314,9 @@ class _AddEmployeePersonalDataState extends State<AddEmployeePersonalData> {
                     obscureText: false,
                     textCapitalization: TextCapitalization.none,
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Enter KRA pin';
-                      }
+                      // if (value == null || value.isEmpty) {
+                      //   return 'Enter KRA pin';
+                      // }
                       return null;
                     },
                     onSaved: (value) {
@@ -301,16 +335,18 @@ class _AddEmployeePersonalDataState extends State<AddEmployeePersonalData> {
                     obscureText: false,
                     textCapitalization: TextCapitalization.none,
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Enter NHIF Number';
-                      }
-                      if (int.tryParse(value) == null) {
-                        return 'Enter a valid number';
+                      // if (value == null || value.isEmpty) {
+                      //   return 'Enter NHIF Number';
+                      // }
+                      if (value != null) {
+                        if (int.tryParse(value) == null) {
+                          return 'Enter a valid number';
+                        }
                       }
                       return null;
                     },
                     onSaved: (value) {
-                      _personalData.nhifNumber = value! as int?;
+                      _personalData.nhifNumber = int.parse(value!);
                     },
                   ),
                   CustomInputField(
@@ -325,16 +361,16 @@ class _AddEmployeePersonalDataState extends State<AddEmployeePersonalData> {
                     obscureText: false,
                     textCapitalization: TextCapitalization.none,
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Enter NSSF Number';
-                      }
-                      if (int.tryParse(value) == null) {
+                      // if (value == null || value.isEmpty) {
+                      //   return 'Enter NSSF Number';
+                      // }
+                      if (value != null && (int.tryParse(value) == null)) {
                         return 'Enter a valid number';
                       }
                       return null;
                     },
                     onSaved: (value) {
-                      _personalData.nssfNumber = value! as int?;
+                      _personalData.nssfNumber = int.parse(value!);
                     },
                   ),
                 ])),
@@ -344,9 +380,10 @@ class _AddEmployeePersonalDataState extends State<AddEmployeePersonalData> {
               children: [
                 const Spacer(),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: _submitForm,
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: appSecondaryColor2),
+                    backgroundColor: appSecondaryColor,
+                  ),
                   child: const Text('Done'),
                 )
               ],

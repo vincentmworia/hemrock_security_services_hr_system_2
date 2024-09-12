@@ -7,11 +7,15 @@ class AddEmployeeCategoryTemplate extends StatelessWidget {
       {super.key,
       required this.maxWidth,
       required this.title,
-      required this.child});
+      required this.child,
+      required this.containerHeight,
+      required this.isReady});
 
+  final double containerHeight;
   final double maxWidth;
   final String title;
   final Widget child;
+  final int isReady;
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +28,8 @@ class AddEmployeeCategoryTemplate extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
         ),
         child: Container(
-          height: 450,
-          width: maxWidth * 0.475,
+          height: containerHeight,
+          width: maxWidth * 0.5,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
           ),
@@ -54,8 +58,14 @@ class AddEmployeeCategoryTemplate extends StatelessWidget {
                     ),
                     const Spacer(),
                     // todo differentHere
-                    const Icon(Icons.check_box),
-                    // Icon(Icons.indeterminate_check_box),
+                    if (isReady > 0)
+                      Icon(
+                        Icons.check_box,
+                        color: isReady == 1
+                            ? appSecondaryColor
+                            : appSecondaryColor2,
+                      ),
+                    if (isReady == 0) const Icon(Icons.indeterminate_check_box,color: appPrimaryColor,),
                   ],
                 ),
               ),
