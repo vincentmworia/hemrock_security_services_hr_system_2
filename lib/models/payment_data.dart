@@ -1,32 +1,45 @@
 class PaymentData {
-  final int grossPayBasicSalary;
-  final int savings;
-  final int payeCut;
-  final int nhifCut;
-  final int nssfCut;
-  final Map<String, dynamic> otherCuts;
-  final BankDetails bankDetails;
+  int? grossPayBasicSalary;
+  int? savings;
+  int? payeCut;
+  int? nhifCut;
+  int? nssfCut;
+  int? otherCuts;
+
+  BankDetails? bankDetails;
+
+  // Map<String, dynamic> otherCuts;
 
   PaymentData({
-    required this.grossPayBasicSalary,
-    required this.savings,
-    required this.payeCut,
-    required this.nhifCut,
-    required this.nssfCut,
-    required this.otherCuts,
-    required this.bankDetails,
+    this.grossPayBasicSalary,
+    this.savings,
+    this.payeCut,
+    this.nhifCut,
+    this.nssfCut,
+    this.otherCuts,
+    this.bankDetails,
   });
+
+  bool get hasNullValue =>
+      grossPayBasicSalary == null ||
+      savings == null ||
+      payeCut == null ||
+      nhifCut == null ||
+      nssfCut == null ||
+      otherCuts == null;
 
 // net salary calculator // todo net salary as property
   int get netPayBasicSalary =>
-      grossPayBasicSalary -
-      savings -
-      payeCut -
-      nhifCut -
-      nssfCut -
-      _otherCuts();
+      (grossPayBasicSalary ?? 0) -
+      (savings ?? 0) -
+      (payeCut ?? 0) -
+      (nhifCut ?? 0) -
+      (nssfCut ?? 0) -
+      (otherCuts ?? 0);
 
-  int _otherCuts() => otherCuts.values.reduce((a, b) => a + b);
+  // _otherCuts();
+
+  // int _otherCuts() => otherCuts.values.reduce((a, b) => a + b);
 
   static PaymentData fromMap(Map<String, dynamic> paymentDetails) =>
       PaymentData(
@@ -47,19 +60,19 @@ class PaymentData {
         'nssfCut': nssfCut,
         'otherCuts': otherCuts,
         'netPay': netPayBasicSalary,
-        'bankDetails': bankDetails.toMap(),
+        'bankDetails': bankDetails?.toMap(),
       };
 }
 
 class BankDetails {
-  final String bankName;
-  final int bankCode;
-  final int bankAccountNumber;
+  String? bankName;
+  int? bankCode;
+  int? bankAccountNumber;
 
   BankDetails({
-    required this.bankName,
-    required this.bankCode,
-    required this.bankAccountNumber,
+    this.bankName,
+    this.bankCode,
+    this.bankAccountNumber,
   });
 
   static BankDetails fromMap(Map<String, dynamic> bankDetails) => BankDetails(
@@ -68,9 +81,12 @@ class BankDetails {
         bankAccountNumber: bankDetails['bankAccountNumber'],
       );
 
+  bool get hasNullValue =>
+      bankName == null || bankCode == null || bankAccountNumber == null;
+
   Map<String, dynamic> toMap() => {
-        'bankName': bankName,
-        'bankCode': bankCode,
-        'bankAccountNumber': bankAccountNumber,
+        'bankName': bankName ?? '',
+        'bankCode': bankCode ?? '',
+        'bankAccountNumber': bankAccountNumber ?? '',
       };
 }

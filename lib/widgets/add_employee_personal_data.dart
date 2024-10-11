@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hrsystem/models/address_data.dart';
 
 import '../models/personal_data.dart';
 import 'package:intl/intl.dart';
@@ -33,11 +34,12 @@ class _AddEmployeePersonalDataState extends State<AddEmployeePersonalData> {
 
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
-      print(_selectedDate);
+      // print(_selectedDate);
       if (_selectedDate == null) {
         ScaffoldMessenger.of(context)
             .showSnackBar(_snackBar('Select the date of birth'));
-      } if (_selectedGender == null) {
+      }
+      if (_selectedGender == null) {
         ScaffoldMessenger.of(context)
             .showSnackBar(_snackBar('Select the gender'));
       }
@@ -49,6 +51,7 @@ class _AddEmployeePersonalDataState extends State<AddEmployeePersonalData> {
         _personalData.dateOfBirth = _selectedDate;
 
         print(_personalData.toMap());
+        print(_addressData.toMap());
 
         widget.switchIcon(_personalData.hasNullValue ? 1 : 2);
 
@@ -66,8 +69,12 @@ class _AddEmployeePersonalDataState extends State<AddEmployeePersonalData> {
   final _kraPinController = TextEditingController();
   final _nssfNumberController = TextEditingController();
   final _nhifNumberController = TextEditingController();
+  final _currentResidenceController = TextEditingController();
+  final _addressController = TextEditingController();
+  final _countyController = TextEditingController();
 
   final _personalData = PersonalData();
+  final _addressData = AddressData();
 
   @override
   void initState() {
@@ -85,9 +92,12 @@ class _AddEmployeePersonalDataState extends State<AddEmployeePersonalData> {
     _kraPinController.dispose();
     _nssfNumberController.dispose();
     _nhifNumberController.dispose();
+    _currentResidenceController.dispose();
+    _addressController.dispose();
+    _countyController.dispose();
   }
 
-  String? _selectedGender ;
+  String? _selectedGender;
 
   DateTime? _selectedDate;
 
@@ -114,7 +124,6 @@ class _AddEmployeePersonalDataState extends State<AddEmployeePersonalData> {
 
   @override
   Widget build(BuildContext context) {
-    // print(_selectedDate.toString());
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Form(
@@ -173,13 +182,16 @@ class _AddEmployeePersonalDataState extends State<AddEmployeePersonalData> {
                   ),
                   Column(
                     children: [
-                      const Text('Select the gender',style: TextStyle(color: appPrimaryColor),),
+                      const Text(
+                        'Select the gender',
+                        style: TextStyle(color: appPrimaryColor),
+                      ),
                       SizedBox(
                         width: cons.maxWidth * 0.2,
                         child: Center(
                           child: DropdownButton<String>(
                             alignment: Alignment.centerRight,
-                            value:_selectedGender,
+                            value: _selectedGender,
                             iconSize: 30,
                             icon: const Icon(
                               Icons.arrow_drop_down_sharp,
@@ -209,7 +221,8 @@ class _AddEmployeePersonalDataState extends State<AddEmployeePersonalData> {
                             onChanged: (String? newValue) {
                               setState(() {
                                 _selectedGender = newValue!;
-                                _personalData.gender = getGenderEnum(_selectedGender!);
+                                _personalData.gender =
+                                    getGenderEnum(_selectedGender!);
                               });
                               // updateSearchedText(newValue);
                             },
@@ -299,17 +312,24 @@ class _AddEmployeePersonalDataState extends State<AddEmployeePersonalData> {
                   ),
                   Column(
                     children: [
-                      const Text('Date of Birth:',style: TextStyle(color: appPrimaryColor),),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          elevation: 2,
-                          fixedSize: Size(cons.maxWidth * 0.2, 50),
-                          backgroundColor: appSecondaryColor,
+                      const Text(
+                        'Date of Birth:',
+                        style: TextStyle(color: appPrimaryColor),
+                      ),
+                      Expanded(
+                        child: Center(
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              elevation: 2,
+                              fixedSize: Size(cons.maxWidth * 0.2, 50),
+                              backgroundColor: appSecondaryColor,
+                            ),
+                            onPressed: () => _selectDate(context),
+                            child: Text(_selectedDate == null
+                                ? 'DD/MM/YYYY'
+                                : _formatDateTime(_selectedDate!)),
+                          ),
                         ),
-                        onPressed: () => _selectDate(context),
-                        child: Text(_selectedDate == null
-                            ? 'DD/MM/YYYY'
-                            : 'Date of birth: ${_formatDateTime(_selectedDate!)}'),
                       ),
                     ],
                   )
@@ -389,6 +409,75 @@ class _AddEmployeePersonalDataState extends State<AddEmployeePersonalData> {
                       _personalData.nssfNumber = int.parse(value!);
                     },
                   ),
+                ])),
+            Expanded(
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                  CustomInputField(
+                    controller: _currentResidenceController,
+                    inputWidth: cons.maxWidth * 0.25,
+                    autoCorrect: false,
+                    enabled: true,
+                    enableSuggestions: false,
+                    labelText: 'Current residence',
+                    icon: Icons.home,
+                    keyboardType: TextInputType.text,
+                    obscureText: false,
+                    textCapitalization: TextCapitalization.none,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Enter Current Residence';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      _addressData.currentResidence = value!;
+                    },
+                  ),
+                  CustomInputField(
+                    controller: _addressController,
+                    inputWidth: cons.maxWidth * 0.25,
+                    autoCorrect: false,
+                    enabled: true,
+                    enableSuggestions: false,
+                    labelText: 'Address',
+                    icon: Icons.location_city,
+                    keyboardType: TextInputType.text,
+                    obscureText: false,
+                    textCapitalization: TextCapitalization.none,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Enter Physical Address';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      _addressData.houseAndStreetAddress = value!;
+                    },
+                  ),
+                  CustomInputField(
+                    controller: _countyController,
+                    inputWidth: cons.maxWidth * 0.25,
+                    autoCorrect: false,
+                    enabled: true,
+                    enableSuggestions: false,
+                    labelText: 'County',
+                    icon: Icons.location_city,
+                    keyboardType: TextInputType.text,
+                    obscureText: false,
+                    textCapitalization: TextCapitalization.none,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Enter county';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      _addressData.county = value!;
+                    },
+                  ),
+
                 ])),
             Expanded(
                 child: Row(

@@ -1,12 +1,12 @@
 class AddressData {
-  final String houseAndStreetAddress;
-  final String county;
-  final String currentResidence;
+  String? houseAndStreetAddress;
+  String? county;
+  String? currentResidence;
 
   AddressData({
-    required this.houseAndStreetAddress,
-    required this.county,
-    required this.currentResidence,
+    this.houseAndStreetAddress,
+    this.county,
+    this.currentResidence,
   });
 
   static AddressData fromMap(Map<String, dynamic> addressData) => AddressData(

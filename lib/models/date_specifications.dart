@@ -10,9 +10,9 @@ class DateSpecifications {
   static  DateSpecifications fromMap(Map<String, dynamic> dateSpecifications) =>
       DateSpecifications(
         jobDescriptionReadAndSignedDate:
-            DateTime.parse(dateSpecifications['jobDescriptionReadAndSignedDate']),
+            DateTime.parse(dateSpecifications['jobDescriptionReadAndSigned']),
         staffCodeOfConductReadAndSignedDate:
-            DateTime.parse(dateSpecifications['staffCodeOfConductReadAndSignedDate']),
+            DateTime.parse(dateSpecifications['staffCodeOfConductReadAndSigned']),
       );
 
   Map<String, dynamic> toMap() => {

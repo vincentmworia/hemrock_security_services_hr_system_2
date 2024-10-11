@@ -22,14 +22,14 @@ class AddEmployeeCategoryTemplate extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Card(
-        elevation: 5,
-        color: Colors.white.withOpacity(0.95),
+        elevation: 10,
+        color: Colors.white.withOpacity(0.9),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
         child: Container(
           height: containerHeight,
-          width: maxWidth * 0.5,
+          width: 1000,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
           ),
@@ -43,7 +43,7 @@ class AddEmployeeCategoryTemplate extends StatelessWidget {
                       topRight: Radius.circular(20.0)),
                 ),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  // mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
                       // todo differentHere
@@ -65,7 +65,11 @@ class AddEmployeeCategoryTemplate extends StatelessWidget {
                             ? appSecondaryColor
                             : appSecondaryColor2,
                       ),
-                    if (isReady == 0) const Icon(Icons.indeterminate_check_box,color: appPrimaryColor,),
+                    if (isReady == 0)
+                      const Icon(
+                        Icons.indeterminate_check_box,
+                        color: appPrimaryColor,
+                      ),
                   ],
                 ),
               ),

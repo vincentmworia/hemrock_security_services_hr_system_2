@@ -137,6 +137,7 @@ class EmployeePageGridView extends StatelessWidget {
                 crossAxisSpacing: 50.0),
             itemCount: allEmployees.length,
             itemBuilder: (context, index) {
+              print(allEmployees[index]);
               final employee =
                   Employee.fromMap(allEmployees[index]) as Employee;
               return Card(

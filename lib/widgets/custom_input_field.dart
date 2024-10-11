@@ -78,6 +78,7 @@ class _InputFieldState extends State<CustomInputField> {
         obscureText: obscureText,
         onFieldSubmitted: widget.onFieldSubmitted,
         textInputAction: widget.textInputAction,
+
         decoration: InputDecoration(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),

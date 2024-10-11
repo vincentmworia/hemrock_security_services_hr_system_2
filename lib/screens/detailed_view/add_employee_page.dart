@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:hrsystem/widgets/add_employee_category_template.dart';
 import 'package:hrsystem/widgets/add_employee_office_data.dart';
+import 'package:hrsystem/widgets/add_employee_payment_details.dart';
 import 'package:hrsystem/widgets/add_employee_personal_data.dart';
 import '../../main.dart';
 import '../../widgets/custom_input_field.dart';
@@ -37,6 +38,14 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
     });
   }
 
+  var _paymentDetailsIconReady = 0;
+
+  _switchPaymentDetailsIcon(int toSwitch) {
+    setState(() {
+      _paymentDetailsIconReady = toSwitch;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
@@ -60,7 +69,7 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
               LayoutBuilder(builder: (context, cons) {
                 return SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
-                  child: Container(
+                  child: SizedBox(
                     width: double.infinity,
                     // color: Colors.red,
                     child: Column(
@@ -68,7 +77,7 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
                         AddEmployeeCategoryTemplate(
                             maxWidth: cons.maxWidth,
                             title: 'Personal Details',
-                            containerHeight: 500,
+                            containerHeight: 650,
                             isReady: _personalIconReady,
                             child: AddEmployeePersonalData(
                               switchIcon: _switchPersonalDataIcon,
@@ -86,9 +95,10 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
                         AddEmployeeCategoryTemplate(
                             maxWidth: cons.maxWidth,
                             title: 'Payment Details',
-                            containerHeight: 350,
-                            isReady: 0,
-                            child: Center()),
+                            containerHeight: 500,
+                            isReady: _paymentDetailsIconReady,
+                            child: AddEmployeePaymentDetails(
+                                switchIcon: _switchPaymentDetailsIcon)),
                         AddEmployeePage._spacing,
                         AddEmployeeCategoryTemplate(
                           maxWidth: cons.maxWidth,
