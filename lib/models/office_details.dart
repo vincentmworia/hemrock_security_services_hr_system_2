@@ -6,38 +6,46 @@ enum PositionTitle {
   eRelieverGuard
 }
 
-const _directorString = 'Director';
-const _supervisorString = 'Supervisor';
-const _administratorString = 'Administrator';
-const _contractGuardString = 'Contract Guard';
-const _relieverGuardString = 'Reliever Guard';
+const directorString = 'Director';
+const supervisorString = 'Supervisor';
+const administratorString = 'Administrator';
+const contractGuardString = 'Contract Guard';
+const relieverGuardString = 'Reliever Guard';
+
+List<String> officePositions = [
+  directorString,
+  supervisorString,
+  administratorString,
+  contractGuardString,
+  relieverGuardString
+];
 
 String getPositionTitleString(PositionTitle pos) {
   switch (pos) {
     case PositionTitle.aDirector:
-      return _directorString;
+      return directorString;
     case PositionTitle.bSupervisor:
-      return _supervisorString;
+      return supervisorString;
     case PositionTitle.cAdministrator:
-      return _administratorString;
+      return administratorString;
     case PositionTitle.dContractGuard:
-      return _contractGuardString;
+      return contractGuardString;
     case PositionTitle.eRelieverGuard:
-      return _relieverGuardString;
+      return relieverGuardString;
   }
 }
 
-PositionTitle _returnPositionTitle(String pos) {
+PositionTitle getPositionTitleEnum(String pos) {
   switch (pos) {
-    case _directorString:
+    case directorString:
       return PositionTitle.aDirector;
-    case _supervisorString:
+    case supervisorString:
       return PositionTitle.bSupervisor;
-    case _administratorString:
+    case administratorString:
       return PositionTitle.cAdministrator;
-    case _contractGuardString:
+    case contractGuardString:
       return PositionTitle.dContractGuard;
-    case _relieverGuardString:
+    case relieverGuardString:
       return PositionTitle.eRelieverGuard;
     default:
       return PositionTitle.aDirector;
@@ -57,10 +65,13 @@ class OfficeDetails {
     this.workStation,
   });
 
+  bool get hasNullValue =>
+      dateOfHire == null || positionTitle == null || employeePeriod == null;
+
   static OfficeDetails fromMap(Map<String, dynamic> officeDetails) =>
       OfficeDetails(
           dateOfHire: DateTime.parse(officeDetails['dateOfHire']),
-          positionTitle: _returnPositionTitle(officeDetails['positionTitle']),
+          positionTitle: getPositionTitleEnum(officeDetails['positionTitle']),
           employeePeriod: officeDetails['employeePeriod'],
           workStation: officeDetails['workStation']);
 

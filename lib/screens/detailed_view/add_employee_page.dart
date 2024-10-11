@@ -33,7 +33,7 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
 
   _switchOfficeDataIcon(int toSwitch) {
     setState(() {
-      _personalIconReady = toSwitch;
+      _officeIconReady = toSwitch;
     });
   }
 
@@ -60,42 +60,46 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
               LayoutBuilder(builder: (context, cons) {
                 return SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
-                  child: Column(
-                    children: [
-                      AddEmployeeCategoryTemplate(
+                  child: Container(
+                    width: double.infinity,
+                    // color: Colors.red,
+                    child: Column(
+                      children: [
+                        AddEmployeeCategoryTemplate(
+                            maxWidth: cons.maxWidth,
+                            title: 'Personal Details',
+                            containerHeight: 500,
+                            isReady: _personalIconReady,
+                            child: AddEmployeePersonalData(
+                              switchIcon: _switchPersonalDataIcon,
+                            )),
+                        AddEmployeePage._spacing,
+                        AddEmployeeCategoryTemplate(
                           maxWidth: cons.maxWidth,
-                          title: 'Personal Details',
-                          containerHeight: 500,
-                          isReady: _personalIconReady,
-                          child: AddEmployeePersonalData(
-                            switchIcon: _switchPersonalDataIcon,
-                          )),
-                      AddEmployeePage._spacing,
-                      AddEmployeeCategoryTemplate(
-                        maxWidth: cons.maxWidth,
-                        title: 'Office Details',
-                        containerHeight: 350,
-                        isReady: _officeIconReady,
-                        child: AddEmployeeOfficeData(
-                            switchIcon: _switchOfficeDataIcon),
-                      ),
-                      AddEmployeePage._spacing,
-                      AddEmployeeCategoryTemplate(
+                          title: 'Office Details',
+                          containerHeight: 400,
+                          isReady: _officeIconReady,
+                          child: AddEmployeeOfficeData(
+                              switchIcon: _switchOfficeDataIcon),
+                        ),
+                        AddEmployeePage._spacing,
+                        AddEmployeeCategoryTemplate(
+                            maxWidth: cons.maxWidth,
+                            title: 'Payment Details',
+                            containerHeight: 350,
+                            isReady: 0,
+                            child: Center()),
+                        AddEmployeePage._spacing,
+                        AddEmployeeCategoryTemplate(
                           maxWidth: cons.maxWidth,
-                          title: 'Payment Details',
+                          title: 'Witness Details',
                           containerHeight: 350,
-                          isReady: 2,
-                          child: Center()),
-                      AddEmployeePage._spacing,
-                      AddEmployeeCategoryTemplate(
-                        maxWidth: cons.maxWidth,
-                        title: 'Witness Details',
-                        containerHeight: 350,
-                        isReady: 1,
-                        child: Center(),
-                      ),
-                      AddEmployeePage._spacing
-                    ],
+                          isReady: 1,
+                          child: Center(),
+                        ),
+                        AddEmployeePage._spacing
+                      ],
+                    ),
                   ),
                 );
               }),

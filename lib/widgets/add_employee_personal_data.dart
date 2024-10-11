@@ -37,11 +37,15 @@ class _AddEmployeePersonalDataState extends State<AddEmployeePersonalData> {
       if (_selectedDate == null) {
         ScaffoldMessenger.of(context)
             .showSnackBar(_snackBar('Select the date of birth'));
+      } if (_selectedGender == null) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(_snackBar('Select the gender'));
       }
-      if (_selectedDate != null) {
+
+      if (_selectedDate != null && _selectedGender != null) {
         // If all fields are valid, save the form
         _formKey.currentState!.save();
-        _personalData.gender = getGenderEnum(_selectedGender);
+        _personalData.gender = getGenderEnum(_selectedGender!);
         _personalData.dateOfBirth = _selectedDate;
 
         print(_personalData.toMap());
@@ -83,7 +87,7 @@ class _AddEmployeePersonalDataState extends State<AddEmployeePersonalData> {
     _nhifNumberController.dispose();
   }
 
-  var _selectedGender = 'Male';
+  String? _selectedGender ;
 
   DateTime? _selectedDate;
 
@@ -167,45 +171,52 @@ class _AddEmployeePersonalDataState extends State<AddEmployeePersonalData> {
                       },
                     ),
                   ),
-                  SizedBox(
-                    width: 100,
-                    child: DropdownButton<String>(
-                      alignment: Alignment.centerRight,
-                      value: 'Female',
-                      iconSize: 30,
-                      icon: const Icon(
-                        Icons.arrow_drop_down_sharp,
-                        color: appSecondaryColor2,
-                      ),
-                      focusColor: appSecondaryColor2.withOpacity(0.1),
-                      iconDisabledColor: appSecondaryColor,
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      iconEnabledColor: appSecondaryColor2,
-                      elevation: 5,
-                      underline: Container(
-                        height: 0,
-                      ),
-                      items: <String>['Male', 'Female']
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(
-                            value,
-                            style: const TextStyle(
-                              color: appPrimaryColor,
-                              // fontSize: 18.0,
+                  Column(
+                    children: [
+                      const Text('Select the gender',style: TextStyle(color: appPrimaryColor),),
+                      SizedBox(
+                        width: cons.maxWidth * 0.2,
+                        child: Center(
+                          child: DropdownButton<String>(
+                            alignment: Alignment.centerRight,
+                            value:_selectedGender,
+                            iconSize: 30,
+                            icon: const Icon(
+                              Icons.arrow_drop_down_sharp,
+                              color: appSecondaryColor2,
                             ),
+                            focusColor: appSecondaryColor2.withOpacity(0.1),
+                            iconDisabledColor: appSecondaryColor,
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            iconEnabledColor: appSecondaryColor2,
+                            elevation: 5,
+                            underline: Container(
+                              height: 0,
+                            ),
+                            items: <String>['Male', 'Female']
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(
+                                  value,
+                                  style: const TextStyle(
+                                    color: appPrimaryColor,
+                                    // fontSize: 18.0,
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                _selectedGender = newValue!;
+                                _personalData.gender = getGenderEnum(_selectedGender!);
+                              });
+                              // updateSearchedText(newValue);
+                            },
                           ),
-                        );
-                      }).toList(),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          _selectedGender = newValue!;
-                          _personalData.gender = getGenderEnum(_selectedGender);
-                        });
-                        // updateSearchedText(newValue);
-                      },
-                    ),
+                        ),
+                      ),
+                    ],
                   )
                 ])),
             Expanded(
@@ -286,16 +297,21 @@ class _AddEmployeePersonalDataState extends State<AddEmployeePersonalData> {
                       _personalData.citizenship = value!;
                     },
                   ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      elevation: 2,
-                      fixedSize: Size(cons.maxWidth * 0.2, 50),
-                      backgroundColor: appSecondaryColor,
-                    ),
-                    onPressed: () => _selectDate(context),
-                    child: Text(_selectedDate == null
-                        ? 'Date of Birth:'
-                        : 'Date of birth: ${_formatDateTime(_selectedDate!)}'),
+                  Column(
+                    children: [
+                      const Text('Date of Birth:',style: TextStyle(color: appPrimaryColor),),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          elevation: 2,
+                          fixedSize: Size(cons.maxWidth * 0.2, 50),
+                          backgroundColor: appSecondaryColor,
+                        ),
+                        onPressed: () => _selectDate(context),
+                        child: Text(_selectedDate == null
+                            ? 'DD/MM/YYYY'
+                            : 'Date of birth: ${_formatDateTime(_selectedDate!)}'),
+                      ),
+                    ],
                   )
                 ])),
             Expanded(
@@ -314,9 +330,9 @@ class _AddEmployeePersonalDataState extends State<AddEmployeePersonalData> {
                     obscureText: false,
                     textCapitalization: TextCapitalization.none,
                     validator: (value) {
-                      // if (value == null || value.isEmpty) {
-                      //   return 'Enter KRA pin';
-                      // }
+                      if (value == null || value.isEmpty) {
+                        return 'Enter KRA pin';
+                      }
                       return null;
                     },
                     onSaved: (value) {

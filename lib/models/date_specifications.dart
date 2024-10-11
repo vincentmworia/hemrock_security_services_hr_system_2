@@ -1,22 +1,22 @@
 class DateSpecifications {
-  final DateTime jobDescriptionReadAndSigned;
-  final DateTime staffCodeOfConductReadAndSigned;
+  final DateTime jobDescriptionReadAndSignedDate;
+  final DateTime staffCodeOfConductReadAndSignedDate;
 
   DateSpecifications({
-    required this.jobDescriptionReadAndSigned,
-    required this.staffCodeOfConductReadAndSigned,
+    required this.jobDescriptionReadAndSignedDate,
+    required this.staffCodeOfConductReadAndSignedDate,
   });
 
   static  DateSpecifications fromMap(Map<String, dynamic> dateSpecifications) =>
       DateSpecifications(
-        jobDescriptionReadAndSigned:
-            DateTime.parse(dateSpecifications['jobDescriptionReadAndSigned']),
-        staffCodeOfConductReadAndSigned:
-            DateTime.parse(dateSpecifications['staffCodeOfConductReadAndSigned']),
+        jobDescriptionReadAndSignedDate:
+            DateTime.parse(dateSpecifications['jobDescriptionReadAndSignedDate']),
+        staffCodeOfConductReadAndSignedDate:
+            DateTime.parse(dateSpecifications['staffCodeOfConductReadAndSignedDate']),
       );
 
   Map<String, dynamic> toMap() => {
-        'jobDescriptionReadAndSigned': jobDescriptionReadAndSigned.toIso8601String(),
-        'staffCodeOfConductReadAndSigned': staffCodeOfConductReadAndSigned.toIso8601String(),
+        'jobDescriptionReadAndSignedDate': jobDescriptionReadAndSignedDate.toIso8601String(),
+        'staffCodeOfConductReadAndSignedDate': staffCodeOfConductReadAndSignedDate.toIso8601String(),
       };
 }
