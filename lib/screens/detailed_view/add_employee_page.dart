@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:hrsystem/widgets/add_employee_category_template.dart';
+import 'package:hrsystem/widgets/add_employee_next_of_kin_details.dart';
 import 'package:hrsystem/widgets/add_employee_office_data.dart';
 import 'package:hrsystem/widgets/add_employee_payment_details.dart';
 import 'package:hrsystem/widgets/add_employee_personal_data.dart';
@@ -46,13 +47,21 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
     });
   }
 
+  var _nextOfKinDetailsIconReady = 0;
+
+  _switchNextOfKinDetailsIcon(int toSwitch) {
+    setState(() {
+      _nextOfKinDetailsIconReady = toSwitch;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
         borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
         child: Container(
-          color: Colors.white.withOpacity(0.75),
+          color: appSecondaryColor,
           // color: appSecondaryColor2.withOpacity(0.5),
           padding: const EdgeInsets.only(top: 30, left: 15, right: 15),
           child: Stack(
@@ -86,7 +95,7 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
                         AddEmployeeCategoryTemplate(
                           maxWidth: cons.maxWidth,
                           title: 'Office Details',
-                          containerHeight: 400,
+                          containerHeight: 500,
                           isReady: _officeIconReady,
                           child: AddEmployeeOfficeData(
                               switchIcon: _switchOfficeDataIcon),
@@ -102,12 +111,21 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
                         AddEmployeePage._spacing,
                         AddEmployeeCategoryTemplate(
                           maxWidth: cons.maxWidth,
-                          title: 'Witness Details',
-                          containerHeight: 350,
-                          isReady: 1,
-                          child: Center(),
+                          title: 'Next of Kin Details',
+                          containerHeight: 400,
+                          isReady: _nextOfKinDetailsIconReady,
+                          child: AddEmployeeNextOfKinDetails(
+                              switchIcon: _switchNextOfKinDetailsIcon),
                         ),
-                        AddEmployeePage._spacing
+
+                        // AddEmployeeCategoryTemplate(
+                        //   maxWidth: cons.maxWidth,
+                        //   title: 'Witness Details',
+                        //   containerHeight: 350,
+                        //   isReady: 1,
+                        //   child: Center(),
+                        // ),
+                        // AddEmployeePage._spacing
                       ],
                     ),
                   ),

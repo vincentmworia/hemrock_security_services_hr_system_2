@@ -23,7 +23,9 @@ class AddEmployeeCategoryTemplate extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Card(
         elevation: 10,
-        color: Colors.white.withOpacity(0.9),
+
+        color: Colors.white.withOpacity(0),
+        // color: appSecondaryColor2.withOpacity(0.5),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
@@ -31,6 +33,8 @@ class AddEmployeeCategoryTemplate extends StatelessWidget {
           height: containerHeight,
           width: 1000,
           decoration: BoxDecoration(
+            // color: appSecondaryColor2.withOpacity(0.75),
+            color: Colors.white.withOpacity(0.95),
             borderRadius: BorderRadius.circular(20),
           ),
           child: Column(

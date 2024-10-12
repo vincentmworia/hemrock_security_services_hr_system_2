@@ -1,11 +1,13 @@
 class WitnessDetails {
-  final String witnessName;
-  final DateTime dateOfWitness;
+  String? witnessName;
+  DateTime? dateOfWitness;
 
   WitnessDetails({
-    required this.witnessName,
-    required this.dateOfWitness,
+    this.witnessName,
+    this.dateOfWitness,
   });
+
+  bool get hasNullValue => witnessName == null || dateOfWitness == null;
 
   static WitnessDetails fromMap(Map<String, dynamic> witnessDetails) =>
       WitnessDetails(
@@ -15,6 +17,6 @@ class WitnessDetails {
 
   Map<String, dynamic> toMap() => {
         'witnessName': witnessName,
-        'dateOfWitness': dateOfWitness.toIso8601String(),
+        'dateOfWitness': dateOfWitness?.toIso8601String(),
       };
 }

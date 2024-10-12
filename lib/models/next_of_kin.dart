@@ -1,11 +1,13 @@
 class NextOfKin {
-  final String relationship;
-  final int mobileNumber;
+  String? relationship;
+  int? mobileNumber;
 
   NextOfKin({
-    required this.relationship,
-    required this.mobileNumber,
+    this.relationship,
+    this.mobileNumber,
   });
+
+  bool get hasNullValue => relationship == null || mobileNumber == null;
 
   static NextOfKin fromMap(Map<String, dynamic> nextOfKin) => NextOfKin(
         relationship: nextOfKin['relationship'],

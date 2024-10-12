@@ -328,6 +328,7 @@ class _AddEmployeePaymentDetails extends State<AddEmployeePaymentDetails> {
                 ElevatedButton(
                   onPressed: _submitForm,
                   style: ElevatedButton.styleFrom(
+                    fixedSize: const Size(100, 50),
                     backgroundColor: appSecondaryColor,
                   ),
                   child: const Text('Done'),

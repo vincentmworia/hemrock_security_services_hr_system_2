@@ -9,6 +9,11 @@ class AddressData {
     this.currentResidence,
   });
 
+  bool get hasNullValue =>
+      houseAndStreetAddress == null ||
+      county == null ||
+      currentResidence == null;
+
   static AddressData fromMap(Map<String, dynamic> addressData) => AddressData(
       houseAndStreetAddress: addressData['houseAndStreetAddress'],
       county: addressData['county'],

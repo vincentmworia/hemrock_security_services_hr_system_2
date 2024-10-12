@@ -53,7 +53,8 @@ class _AddEmployeePersonalDataState extends State<AddEmployeePersonalData> {
         print(_personalData.toMap());
         print(_addressData.toMap());
 
-        widget.switchIcon(_personalData.hasNullValue ? 1 : 2);
+        widget.switchIcon(
+            (_personalData.hasNullValue || _addressData.hasNullValue) ? 1 : 2);
 
         ScaffoldMessenger.of(context)
             .showSnackBar(_snackBar('Personal Data is okay'));
@@ -181,11 +182,13 @@ class _AddEmployeePersonalDataState extends State<AddEmployeePersonalData> {
                     ),
                   ),
                   Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
-                        'Select the gender',
-                        style: TextStyle(color: appPrimaryColor),
-                      ),
+                      if (_selectedGender == null)
+                        const Text(
+                          'Select the gender',
+                          style: TextStyle(color: appPrimaryColor),
+                        ),
                       SizedBox(
                         width: cons.maxWidth * 0.2,
                         child: Center(
@@ -211,8 +214,10 @@ class _AddEmployeePersonalDataState extends State<AddEmployeePersonalData> {
                                 value: value,
                                 child: Text(
                                   value,
-                                  style: const TextStyle(
-                                    color: appPrimaryColor,
+                                  style: TextStyle(
+                                    color: (_selectedGender == value)
+                                        ? appSecondaryColor2
+                                        : appPrimaryColor,
                                     // fontSize: 18.0,
                                   ),
                                 ),
@@ -310,29 +315,17 @@ class _AddEmployeePersonalDataState extends State<AddEmployeePersonalData> {
                       _personalData.citizenship = value!;
                     },
                   ),
-                  Column(
-                    children: [
-                      const Text(
-                        'Date of Birth:',
-                        style: TextStyle(color: appPrimaryColor),
-                      ),
-                      Expanded(
-                        child: Center(
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              elevation: 2,
-                              fixedSize: Size(cons.maxWidth * 0.2, 50),
-                              backgroundColor: appSecondaryColor,
-                            ),
-                            onPressed: () => _selectDate(context),
-                            child: Text(_selectedDate == null
-                                ? 'DD/MM/YYYY'
-                                : _formatDateTime(_selectedDate!)),
-                          ),
-                        ),
-                      ),
-                    ],
-                  )
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      elevation: 2,
+                      fixedSize: Size(cons.maxWidth * 0.2, 50),
+                      backgroundColor: appSecondaryColor,
+                    ),
+                    onPressed: () => _selectDate(context),
+                    child: Text(_selectedDate == null
+                        ? 'Date of Birth:'
+                        : _formatDateTime(_selectedDate!)),
+                  ),
                 ])),
             Expanded(
                 child: Row(
@@ -477,7 +470,6 @@ class _AddEmployeePersonalDataState extends State<AddEmployeePersonalData> {
                       _addressData.county = value!;
                     },
                   ),
-
                 ])),
             Expanded(
                 child: Row(
@@ -487,6 +479,7 @@ class _AddEmployeePersonalDataState extends State<AddEmployeePersonalData> {
                 ElevatedButton(
                   onPressed: _submitForm,
                   style: ElevatedButton.styleFrom(
+                    fixedSize: const Size(100, 50),
                     backgroundColor: appSecondaryColor,
                   ),
                   child: const Text('Done'),
